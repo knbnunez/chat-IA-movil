@@ -1,15 +1,18 @@
 import { StyleSheet, View } from 'react-native';
 
-export default function StatBox() {
+export default function StatBox(props) {
+  const { style: customStyle, children } = props
   return (
-    <View style={styles.statBox}/>
+    <View style={[styles.statBox, customStyle]}>
+      {children}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   statBox: {
-    width: 100,
-    height: 100,
+    width: 98.33,
+    height: 118,
     backgroundColor: '#fff',
     borderRadius: 24,
   },
