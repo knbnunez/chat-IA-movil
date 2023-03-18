@@ -1,30 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import StatBox from './components/StatBox';
+import ActivityBox from './components/ActivityBox';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={{...styles.title, ...styles.titleHome}}>Home</Text>
+      <Text style={[styles.title, styles.titleHome]}>Home</Text>
       <Text style={styles.title}>Overview</Text>
-      
-      <View style={styles.containerBoxStats}>
-        <View style={styles.boxStats}>
-        </View>
-        <View style={styles.boxStats}>
-        </View>
-        <View style={styles.boxStats}>
-        </View>
+
+      <View style={styles.containerStatBox}>
+        <StatBox />
+        <StatBox />
+        <StatBox />
       </View>
-      
-      <View style={styles.containerBoxActivitys}>
-        <View style={[styles.boxActivity, {backgroundColor: '#FFF9F0'}]}>
-        </View>
-        <View style={[styles.boxActivity, {backgroundColor: '#F0F0FF'}]}>
-        </View>
-        <View style={[styles.boxActivity, {backgroundColor: '#FFF0FD'}]}>
-        </View>
+
+      <View style={styles.containerActivityBox}>
+        <ActivityBox style={{ backgroundColor: '#FFF9F0' }} />
+        <ActivityBox style={{ backgroundColor: '#F0F0FF' }} />
+        <ActivityBox style={{ backgroundColor: '#FFF0FD' }} />
       </View>
-      
+
       <StatusBar style="auto" />
     </View>
   );
@@ -49,29 +45,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     // color: 'red',
   },
-  containerBoxStats: {
+  containerStatBox: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 20,
     marginTop: 50,
   },
-  boxStats: {
-    width: 100,
-    height: 100,
-    backgroundColor: '#fff',
-    borderRadius: 24,
-  },
-  containerBoxActivitys: {
+  containerActivityBox: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     marginTop: 30,
     marginHorizontal: 20,
-    height: '50%',        
-  },
-  boxActivity: {
-    // width: ,
-    height: 100,
-    backgroundColor: '#fff',
-    borderRadius: 24,
+    height: '50%',
   },
 });
