@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import StatBox from './components/StatBox';
 import ActivityBox from './components/ActivityBox';
@@ -14,26 +13,42 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.title}>Home</Text>
       <Text style={styles.subtitle}>Overview</Text>
-      
-      <StatBox>
-        <View>
-          {/* No se está aplicando el estilo al Children, investigar eso... */}
-          <View style={styles.iconContainer}></View>
-        </View>
-        <View>
-          <View></View>
-        </View>
-      </StatBox>
 
-      {/* <ActivityBox style={{ backgroundColor: '#FFF9F0' }} /> */}
-      
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        
+        <StatBox 
+          // style={styles.statBox} 
+          // source='./assets/images/Fueguito.svg' # No se pudo mandarle el source para el string del require (del Image)
+          // sourceStyle='{height: 16, width: 13}'
+          boxText='3.950'
+          boxSubtext='Cal Burnt'
+        >
+          <Image
+            source={require("./assets/images/Fueguito.svg")}
+            style={{ height: 16, width: 13 }}
+          />
+        </StatBox>
+        <StatBox boxText='3h 14min' boxSubtext='Total Time'>
+          <Image source={require("./assets/images/Relojito.svg")} style={{ height: 16, width: 16 }}/>
+        </StatBox>
+        <StatBox boxText='15' boxSubtext='Exercises'>
+          <Image source={require("./assets/images/Pesita.svg")} style={{ height: 20, width: 20 }}/>
+        </StatBox>
+      </View>
+
+      <View style={styles.activityBoxContainer}>  
+        <ActivityBox style={{backgroundColor: '#FFF9F0'}} excerciseTitle='Push-ups' excerciseSubtitle='Tomorrow at 08:00 AM' categoryTitle='WARM-UP'/>
+        <ActivityBox style={{backgroundColor: '#F0F0FF'}} excerciseTitle='Workout' excerciseSubtitle='Today at 2:45 PM' categoryTitle='FITNESS'/>
+        <ActivityBox style={{backgroundColor: '#FFF0FD'}} excerciseTitle='Workout' excerciseSubtitle='Today at 2:45 PM' categoryTitle='FITNESS'/>        
+      </View>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Prioridad
+    flex: 1, // Se establece el tamaño al máx en relación con su contenedor, en este caso, container principal: toda la pantalla
     backgroundColor: '#000',
     paddingHorizontal: 24,
   },
@@ -49,19 +64,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
     marginVertical: 16,
-  },
-  // -----------------------
-  iconContainer: {
-    width: 32,
-    height: 32,
-    backgroundColor: 'Red',
-  },
+  },  
   // -----------------------
   activityBoxContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginTop: 30,
-    marginHorizontal: 20,
-    height: '50%',
+    flexDirection: 'column', // Por defecto es column (React Native -> Mobile)
+    flex: 1, // Expando al max en relación con su contenedor
+    justifyContent: 'space-around',
+    marginVertical: 12,
+    
   },
 });
