@@ -16,4 +16,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 24,
   },
+  iconContainer: {
+    width: 32,
+    height: 32,
+    backgroundColor: 'Red',
+  },
 });
