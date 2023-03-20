@@ -37,10 +37,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column', 
     justifyContent: 'space-between', 
     padding: 18,
-    shadowColor: "#FFF",
+    shadowColor: "#FFF", //DarkMode
+    // shadowColor: "#000",
     shadowOffset: { width: 2.5, height: 1.5 },
     shadowOpacity: 0.2,
     shadowRadius: 2.5,
+    elevation: 2,
   },
   iconContainer: {
     width: 32,

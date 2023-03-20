@@ -14,24 +14,24 @@ export default function App() {
       <Text style={styles.title}>Home</Text>
       <Text style={styles.subtitle}>Overview</Text>
 
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={styles.statBoxContainer}>
         
         <StatBox 
           // style={styles.statBox} 
           // source='./assets/images/Fueguito.svg' # No se pudo mandarle el source para el string del require (del Image)
           // sourceStyle='{height: 16, width: 13}'
           boxText='3.950'
-          boxSubtext='Cal Burnt'
+          boxSubtext='Rtas. gen.'
         >
           <Image
             source={require("./assets/images/Fueguito.svg")}
             style={{ height: 16, width: 13 }}
           />
         </StatBox>
-        <StatBox boxText='3h 14min' boxSubtext='Total Time'>
+        <StatBox boxText='1.000' boxSubtext='Img. gen.'>
           <Image source={require("./assets/images/Relojito.svg")} style={{ height: 16, width: 16 }}/>
         </StatBox>
-        <StatBox boxText='15' boxSubtext='Exercises'>
+        <StatBox boxText='15' boxSubtext='Trad.real.'>
           <Image source={require("./assets/images/Pesita.svg")} style={{ height: 20, width: 20 }}/>
         </StatBox>
       </View>
@@ -49,28 +49,39 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1, // Se establece el tamaño al máx en relación con su contenedor, en este caso, container principal: toda la pantalla
-    backgroundColor: '#000',
+    backgroundColor: '#000', // DarkMode?
+    // backgroundColor: '#FFF',
     paddingHorizontal: 24,
   },
   // -----------------------
   title: {
     fontFamily: 'DMSansBold',
     fontSize: 24,
-    color: '#fff',
+    color: '#fff', //DarkMode?
+    // color: '#000',
     marginTop: 60,
   },
   subtitle: {
     fontFamily: 'DMSans',
     fontSize: 18,
-    color: '#fff',
+    color: '#fff', //DarkMode?
+    // color: '#000',
     marginVertical: 16,
   },  
   // -----------------------
+  statBoxContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    backgroundColor: 'green',
+  },
+  // -----------------------
+  // TODO: Corregir margin derecho...
   activityBoxContainer: {
     flexDirection: 'column', // Por defecto es column (React Native -> Mobile)
     flex: 1, // Expando al max en relación con su contenedor
     justifyContent: 'space-around',
     marginVertical: 12,
-    
+    marginBottom: 100,
+    backgroundColor: 'blue',
   },
 });
