@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import StatBox from './components/StatBox';
 import ActivityBox from './components/ActivityBox';
+import NavBar from './components/NavBar';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,15 +25,15 @@ export default function App() {
           boxSubtext='Cal Burnt'
         >
           <Image
-            source={require("./assets/images/Fueguito.svg")}
+            source={require("./assets/images/Fueguito.png")}
             style={{ height: 16, width: 13 }}
           />
         </StatBox>
         <StatBox boxText='3h 14min' boxSubtext='Total Time'>
-          <Image source={require("./assets/images/Relojito.svg")} style={{ height: 16, width: 16 }}/>
+          <Image source={require("./assets/images/Relojito.png")} style={{ height: 16, width: 16 }}/>
         </StatBox>
         <StatBox boxText='15' boxSubtext='Exercises'>
-          <Image source={require("./assets/images/Pesita.svg")} style={{ height: 20, width: 20 }}/>
+          <Image source={require("./assets/images/Pesita.png")} style={{ height: 20, width: 20 }}/>
         </StatBox>
       </View>
 
@@ -41,6 +42,8 @@ export default function App() {
         <ActivityBox style={{backgroundColor: '#F0F0FF'}} excerciseTitle='Workout' excerciseSubtitle='Today at 2:45 PM' categoryTitle='FITNESS'/>
         <ActivityBox style={{backgroundColor: '#FFF0FD'}} excerciseTitle='Workout' excerciseSubtitle='Today at 2:45 PM' categoryTitle='FITNESS'/>        
       </View>
+
+      <NavBar customStyle={{}}></NavBar>
 
     </View>
   );
@@ -70,7 +73,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column', // Por defecto es column (React Native -> Mobile)
     flex: 1, // Expando al max en relación con su contenedor
     justifyContent: 'space-around',
-    marginVertical: 12,
+    alignItems: 'center',
+    marginVertical: 10,
+    // marginHorizontal: 10
     
   },
 });

@@ -19,7 +19,7 @@ export default function ActivityBox(props) {
 
 const styles = StyleSheet.create({
     activityBox: {
-        width: 327,
+        width: '100%',
         height: 100,
         borderRadius: 24,
         flexDirection: 'row',
