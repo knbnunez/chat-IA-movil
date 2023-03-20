@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function ActivityBox(props) {
+const ActivityBox = (props) => {
     const { style: customStyle, children, excerciseTitle, excerciseSubtitle, categoryTitle } = props
     // console.log(customStyle);
     return (
@@ -11,7 +11,7 @@ export default function ActivityBox(props) {
                 <Text style={styles.excerciseSubtitle}>{excerciseSubtitle}</Text>
             </View>
             <View style={styles.categoryContainer}>
-                <Text style={styles.categoryTitle}>{categoryTitle}</Text>
+                <Text style={styles.categoryTitle}>{categoryTitle.toUpperCase()}</Text>
             </View>
         </View>
     );
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
     excerciseTitle: {
         fontFamily: 'DMSansBold', 
-        fontSize: 18
+        fontSize: 18,
     },
     excerciseSubtitle: {
         fontFamily: 'DMSansBold', 
@@ -55,5 +55,8 @@ const styles = StyleSheet.create({
         fontFamily: 'DMSansBold', 
         fontSize: 10,
         color: '#A05E03',
+        textTransform: 'uppercase'
     }
 });
+
+export default ActivityBox;

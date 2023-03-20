@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native';
 
-export default function StatBox(props) {
+const StatBox = (props) => {
   const { 
     style: customStyle, 
     children,
@@ -62,3 +62,5 @@ const styles = StyleSheet.create({
     color: '#72777A',
   },
 });
+
+export default StatBox;

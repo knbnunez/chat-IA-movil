@@ -1,19 +1,33 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesome } from '@expo/vector-icons'; 
 import StatBox from './components/StatBox';
 import ActivityBox from './components/ActivityBox';
 import NavBar from './components/NavBar';
 
-export default function App() {
+const App = () => {
+  const [count, setCount] = useState(0);
+
   const [fontsLoaded] = useFonts({
     'DMSans': require('./assets/fonts/DMSans-Regular.ttf'),
     'DMSansBold': require('./assets/fonts/DMSans-Bold.ttf'),
   });
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  setInterval(() => {
+    if (count < 1000) setCount(count + 1)
+  }, 1000);
+  // count = 0;
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <Text style={styles.subtitle}>Overview</Text>
+      <Text style={styles.title}>Inicio</Text>
+      <Text style={styles.subtitle}>Resumen</Text>
 
       <View style={styles.statBoxContainer}>
         
@@ -21,26 +35,24 @@ export default function App() {
           // style={styles.statBox} 
           // source='./assets/images/Fueguito.svg' # No se pudo mandarle el source para el string del require (del Image)
           // sourceStyle='{height: 16, width: 13}'
-          boxText='3.950'
-          boxSubtext='Rtas. gen.'
+          boxText={count} 
+          boxSubtext='Rtas. gen.' // 3.950
         >
-          <Image
-            source={require("./assets/images/Fueguito.png")}
-            style={{ height: 16, width: 13 }}
-          />
+          <Ionicons name="chatbubbles" size={20} color="#0070F0" />
         </StatBox>
-        <StatBox boxText='3h 14min' boxSubtext='Total Time'>
-          <Image source={require("./assets/images/Relojito.png")} style={{ height: 16, width: 16 }}/>
+        <StatBox boxText='1.000' boxSubtext='Img. gen.'>
+          {/* <Image source={require("./assets/images/imagen.png")} style={{ width: 15, height: 13 }}/> */}
+          <Ionicons name="image" size={20} color="#0070F0" />
         </StatBox>
-        <StatBox boxText='15' boxSubtext='Exercises'>
-          <Image source={require("./assets/images/Pesita.png")} style={{ height: 20, width: 20 }}/>
+        <StatBox boxText='15' boxSubtext='Trad. real.'>
+          <FontAwesome name="microphone" size={20} color="#0070F0" />
         </StatBox>
       </View>
 
       <View style={styles.activityBoxContainer}>  
-        <ActivityBox style={{backgroundColor: '#FFF9F0'}} excerciseTitle='Push-ups' excerciseSubtitle='Tomorrow at 08:00 AM' categoryTitle='WARM-UP'/>
-        <ActivityBox style={{backgroundColor: '#F0F0FF'}} excerciseTitle='Workout' excerciseSubtitle='Today at 2:45 PM' categoryTitle='FITNESS'/>
-        <ActivityBox style={{backgroundColor: '#FFF0FD'}} excerciseTitle='Workout' excerciseSubtitle='Today at 2:45 PM' categoryTitle='FITNESS'/>        
+        <ActivityBox style={{backgroundColor: '#FFF9F0'}} excerciseTitle='Canal de texto' excerciseSubtitle='Chatea con la IA' categoryTitle='CHATEÁ'/>
+        <ActivityBox style={{backgroundColor: '#F0F0FF'}} excerciseTitle='Canal de imágen' excerciseSubtitle='Imágenes desde en imágenes' categoryTitle='CREÁ'/>
+        <ActivityBox style={{backgroundColor: '#FFF0FD'}} excerciseTitle='Canal de voz' excerciseSubtitle='Convertí voz a texto' categoryTitle='HABLÁ'/>        
       </View>
 
       <NavBar customStyle={{}}></NavBar>
@@ -75,7 +87,7 @@ const styles = StyleSheet.create({
   statBoxContainer: {
     flexDirection: 'row', 
     justifyContent: 'space-between',
-    backgroundColor: 'green',
+    // backgroundColor: 'green',
   },
   // -----------------------
   // TODO: Corregir margin derecho...
@@ -84,7 +96,9 @@ const styles = StyleSheet.create({
     flex: 1, // Expando al max en relación con su contenedor
     justifyContent: 'space-around',
     marginVertical: 12,
-    marginBottom: 100,
-    backgroundColor: 'blue',
+    marginBottom: 40,
+    // backgroundColor: 'blue',
   },
 });
+
+export default App;
