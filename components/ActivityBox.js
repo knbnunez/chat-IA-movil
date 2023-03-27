@@ -15,7 +15,9 @@ const ActivityBox = (props) => {
             </View>
         </View>
     );
-}
+};
+
+export default ActivityBox;
 
 const styles = StyleSheet.create({
     activityBox: {
@@ -59,4 +61,3 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ActivityBox;

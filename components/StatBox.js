@@ -26,7 +26,9 @@ const StatBox = (props) => {
       </View>
     </View>
   );
-}
+};
+
+export default StatBox;
 
 const styles = StyleSheet.create({
   statBox: {
@@ -63,4 +65,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StatBox;
