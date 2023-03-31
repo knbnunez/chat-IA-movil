@@ -13,21 +13,18 @@ const HomeScreen = () => {
     'DMSans': require('./../assets/fonts/DMSans-Regular.ttf'),
     'DMSansBold': require('./../assets/fonts/DMSans-Bold.ttf'),
   });
-
-  const [count, setCount] = useState(0);
-  // setCount(0);
-
   if (!fontsLoaded) {
     return null;
   }
 
+  // const [count, setCount] = useState(0);
   // setInterval(() => {
   //   if (count < 9999) setCount(count + 1);
   //   else setCount(3000);
   // }, 1000);
 
   const navigation = useNavigation();
-  const press = () => {
+  const _handlePress = () => {
     navigation.navigate(ROUTES.CHAT)
   }
   
@@ -57,15 +54,11 @@ const HomeScreen = () => {
       </View>
 
       <View style={styles.activityBoxContainer}>  
-        <ActivityBox style={{backgroundColor: '#FFF9F0'}} excerciseTitle='Canal de texto' excerciseSubtitle='Chatea con la IA' categoryTitle='CHATEÁ'/>
+        <Pressable onPressIn={_handlePress}>
+          <ActivityBox style={{backgroundColor: '#FFF9F0'}} excerciseTitle='Canal de texto' excerciseSubtitle='Chatea con la IA' categoryTitle='CHATEÁ'/>
+        </Pressable>
         <ActivityBox style={{backgroundColor: '#F0F0FF'}} excerciseTitle='Canal de imágen' excerciseSubtitle='Imágenes desde en imágenes' categoryTitle='CREÁ'/>
         <ActivityBox style={{backgroundColor: '#FFF0FD'}} excerciseTitle='Canal de voz' excerciseSubtitle='Convertí voz a texto' categoryTitle='HABLÁ'/>        
-      </View>
-
-      <View>
-        <Pressable onPressIn={press} style={{backgroundColor: 'white', height: 40, width: 100}}>
-          <Text>I'm pressable!</Text>
-        </Pressable>
       </View>
 
     </View>
