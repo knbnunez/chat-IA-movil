@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FontAwesome } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/native';
+
 import StatBox from './../components/StatBox';
 import ActivityBox from './../components/ActivityBox';
-import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../routes';
 
 const HomeScreen = () => {
@@ -24,9 +25,11 @@ const HomeScreen = () => {
   // }, 1000);
 
   const navigation = useNavigation();
-  const _handlePress = () => {
-    navigation.navigate(ROUTES.CHAT)
-  }
+  const _handlePress = () => navigation.navigate(ROUTES.CHAT);
+  // const _handlePress = (name) => {
+  //   if (name == 'CHAT') navigation.navigate(ROUTES.CHAT);
+  //   else navigation.navigate(ROUTES.HOME);
+  // }
   
   return (
     <View style={styles.container}>
@@ -34,7 +37,6 @@ const HomeScreen = () => {
       <Text style={styles.subtitle}>Resumen</Text>
 
       <View style={styles.statBoxContainer}>
-        
         <StatBox 
           // style={styles.statBox} 
           // source='./assets/images/Fueguito.svg' # No se pudo mandarle el source para el string del require (del Image)
@@ -42,23 +44,61 @@ const HomeScreen = () => {
           boxText='3.950'
           boxSubtext='Rtas. gen.' // 3.950
         >
-          <Ionicons name="chatbubbles" size={20} color="#0070F0" />
+          <Ionicons 
+            name="chatbubbles" 
+            size={20} 
+            color="#0070F0" 
+          />
         </StatBox>
-        <StatBox boxText='1.000' boxSubtext='Img. gen.'>
+        <StatBox 
+          boxText='1.000' 
+          boxSubtext='Img. gen.'
+        >
           {/* <Image source={require("./assets/images/imagen.png")} style={{ width: 15, height: 13 }}/> */}
-          <Ionicons name="image" size={20} color="#0070F0" />
+          <Ionicons 
+            name="image" 
+            size={20} 
+            color="#0070F0" 
+          />
         </StatBox>
-        <StatBox boxText='15' boxSubtext='Trad. real.'>
-          <FontAwesome name="microphone" size={20} color="#0070F0" />
+        <StatBox 
+          boxText='15' 
+          boxSubtext='Trad. real.'
+        >
+          <FontAwesome 
+            name="microphone" 
+            size={20} 
+            color="#0070F0" 
+          />
         </StatBox>
       </View>
 
       <View style={styles.activityBoxContainer}>  
+        {/* <Pressable onPressIn={() => _handlePress('CHAT')}> */}
         <Pressable onPressIn={_handlePress}>
-          <ActivityBox style={{backgroundColor: '#FFF9F0'}} excerciseTitle='Canal de texto' excerciseSubtitle='Chatea con la IA' categoryTitle='CHATEÁ'/>
+          <ActivityBox 
+            style={{backgroundColor: '#FFF9F0'}} 
+            excerciseTitle='Canal de texto' 
+            excerciseSubtitle='Chatea con la IA' 
+            categoryTitle='CHATEÁ'
+          />
         </Pressable>
-        <ActivityBox style={{backgroundColor: '#F0F0FF'}} excerciseTitle='Canal de imágen' excerciseSubtitle='Imágenes desde en imágenes' categoryTitle='CREÁ'/>
-        <ActivityBox style={{backgroundColor: '#FFF0FD'}} excerciseTitle='Canal de voz' excerciseSubtitle='Convertí voz a texto' categoryTitle='HABLÁ'/>        
+        {/* <Pressable onPressIn={() => _handlePress('HOME')}> */}
+          <ActivityBox 
+            style={{backgroundColor: '#F0F0FF'}} 
+            excerciseTitle='Canal de imágen' 
+            excerciseSubtitle='Imágenes desde en imágenes' 
+            categoryTitle='CREÁ'
+          />
+        {/* </Pressable> */}
+        {/* <Pressable onPressIn={() => _handlePress('HOME')}>  */}
+          <ActivityBox 
+            style={{backgroundColor: '#FFF0FD'}} 
+            excerciseTitle='Canal de voz' 
+            excerciseSubtitle='Convertí voz a texto' 
+            categoryTitle='HABLÁ'
+          />        
+        {/* </Pressable> */}
       </View>
 
     </View>
@@ -70,11 +110,11 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1, // Se establece el tamaño al máx en relación con su contenedor, en este caso, container principal: toda la pantalla
-    backgroundColor: '#000', // DarkMode?
+    flexDirection: 'column',
+    backgroundColor: '#191A1B', // DarkMode?
     // backgroundColor: '#FFF',
     paddingHorizontal: 24,
   },
-  // -----------------------
   title: {
     fontFamily: 'DMSansBold',
     fontSize: 24,
@@ -89,20 +129,22 @@ const styles = StyleSheet.create({
     // color: '#000',
     marginVertical: 16,
   },  
-  // -----------------------
   statBoxContainer: {
+    // maxHeight: '18%',
     flexDirection: 'row', 
+    // flex: 1,
     justifyContent: 'space-between',
     // backgroundColor: 'green',
+    backgroundColor: '#191A1B', 
   },
-  // -----------------------
-  // TODO: Corregir margin derecho...
   activityBoxContainer: {
+    // height: '50%',
     flexDirection: 'column', // Por defecto es column (React Native -> Mobile)
     flex: 1, // Expando al max en relación con su contenedor
     justifyContent: 'space-around',
     marginVertical: 12,
-    marginBottom: 40,
+    // marginBottom: 40,
     // backgroundColor: 'blue',
+    backgroundColor: '#191A1B', 
   },
 });

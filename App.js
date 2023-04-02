@@ -1,21 +1,11 @@
-import { Text } from 'react-native';
-import HomeScreen from './screens/HomeScreen';
-import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { ROUTES } from './routes';
-import ChatScreen from './screens/ChatScreen';
+import { View, Text, StyleSheet } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-const Tab = createBottomTabNavigator();
+import TabBar from './components/TabBar';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName={ROUTES.HOME}>
-        <Tab.Screen name={ROUTES.HOME} component={HomeScreen} options={{ headerShown: false }}/>
-        <Tab.Screen name={ROUTES.CHAT} component={ChatScreen}/>
-      </Tab.Navigator>
-    </NavigationContainer>
+      <TabBar></TabBar>
   );
 };
 

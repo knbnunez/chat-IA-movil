@@ -21,13 +21,14 @@ export default ActivityBox;
 
 const styles = StyleSheet.create({
     activityBox: {
+        // width: '100%',
+        // height: '30%',
         width: '100%',
-        height: 100,
+        height: 93,
         borderRadius: 24,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    // ---
     excerciseContainer: {
         flexDirection: 'column',
         marginTop: 21.5,
@@ -42,7 +43,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#404446'
     },
-    // ---
     categoryContainer: {
         width: 71,
         height: 27, 

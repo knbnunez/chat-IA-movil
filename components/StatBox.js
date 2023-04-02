@@ -32,8 +32,10 @@ export default StatBox;
 
 const styles = StyleSheet.create({
   statBox: {
-    width: 98.33,
-    height: 118,
+    width: 104,
+    // width: '33.33%',
+    height: 120,
+    // height: '55%',
     backgroundColor: '#fff',
     borderRadius: 24,
     flexDirection: 'column', 
