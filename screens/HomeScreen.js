@@ -37,6 +37,7 @@ const HomeScreen = () => {
       <Text style={styles.subtitle}>Resumen</Text>
 
       <View style={styles.statBoxContainer}>
+        
         <StatBox 
           // style={styles.statBox} 
           // source='./assets/images/Fueguito.svg' # No se pudo mandarle el source para el string del require (del Image)
@@ -50,6 +51,7 @@ const HomeScreen = () => {
             color="#0070F0" 
           />
         </StatBox>
+
         <StatBox 
           boxText='1.000' 
           boxSubtext='Img. gen.'

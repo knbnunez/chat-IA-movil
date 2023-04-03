@@ -12,6 +12,22 @@ import VoiceScreen from '../screens/VoiceScreen';
 
 const Tab = createBottomTabNavigator();
 
+const styleFocused = (focused, componentName, tabName) => {
+    const iconColor = 'gray';
+    if (focused) {
+        iconColor = 'white';
+        return (
+            <View style={{backgroundColor: 'black'}}>
+                <componentName size={20} color={iconColor} />
+                <Text>tabName</Text>
+            </View> 
+        );
+        
+    } else {
+        return <componentName size={20} color={iconColor} />
+    }
+}
+
 const TabBar = () => {
     return (
         <NavigationContainer>
@@ -47,9 +63,22 @@ const TabBar = () => {
                     component={HomeScreen} 
                     options={{ 
                         headerShown: false,
-                        tabBarIcon: ({ color, size, focused }) => { // Es lo mismo que hacer: tabBarIcon: (params) => { const {color, size} = params; ...}
-                            const iconColor = focused ? 'black' : 'gray';
-                            return <Entypo name="home" size={20} color={iconColor} />
+                        tabBarIcon: ({ color, size, focused }) => { // Es lo mismo que hacer: tabBarIcon: (params) => { const {color, size} = params; ...}                  
+                            const componentName = 'Entypo';
+                            const tabName = 'Inicio';
+                            styleFocused(focused, componentName);
+                            
+                            // if (focused) {
+                            //     const iconColor = 'white';
+                            //     return (
+                            //         <View style={{backgroundColor: 'black'}}>
+                            //             <Entypo  size={20} color={iconColor} />
+                            //         </View>
+                            //     )    
+                            // } else {
+                            //     const iconColor = 'gray';
+                            //     return <Entypo  size={20} color={iconColor} />
+                            // }
                         }
                     }}  
                 />
@@ -71,8 +100,13 @@ const TabBar = () => {
                         headerShown: false,
                         tabBarIcon: ({ color, size, focused }) => {
                             const iconColor = focused ? 'black' : 'gray';
-                            return <Ionicons name="chatbubbles" size={20} color={iconColor} />
-                        }
+                            return (
+                                <View style={{backgroundColor: 'black'}}>
+                                    <Ionicons name="chatbubbles" size={20} color={iconColor} />
+                                </View>
+                            );
+                        },
+                        
                     }}  
                 />
                 <Tab.Screen 

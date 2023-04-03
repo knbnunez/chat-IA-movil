@@ -1,4 +1,7 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const StatBox = (props) => {
   const { 
@@ -11,6 +14,9 @@ const StatBox = (props) => {
   } = props
   // console.log({source});
   // console.log({sourceStyle});
+
+  
+
   return (
     <View style={[styles.statBox, customStyle]}>
       <View style={styles.iconContainer}>
@@ -32,22 +38,26 @@ export default StatBox;
 
 const styles = StyleSheet.create({
   statBox: {
-    width: 104,
-    // width: '33.33%',
-    height: 120,
-    // height: '55%',
+    // width: 104,
+    width: windowWidth * 0.27,
+    // height: 120,
+    height: windowHeight * 0.16,
     backgroundColor: '#fff',
     borderRadius: 24,
     flexDirection: 'column', 
     justifyContent: 'space-between', 
     padding: 18,
-    shadowColor: "#FFF", //DarkMode
     // shadowColor: "#000",
-    shadowOffset: { width: 2.5, height: 1.5 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2.5,
-    elevation: 5
+    shadowColor: "#FFF",
+    shadowOffset: {
+      width: 6,
+      height: 6,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 12,
   },
+  // Falta hacer responsive esto
   iconContainer: {
     width: 32,
     height: 32,
