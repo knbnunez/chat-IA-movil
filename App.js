@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import TabBar from './components/TabBar';
+import TabBar from './src/components/TabBar';
 
 const App = () => {
   return (

@@ -20,6 +20,9 @@ const ActivityBox = (props) => {
 export default ActivityBox;
 
 const styles = StyleSheet.create({
+
+    // TODO: HACERLO RESPONSIVE
+    
     activityBox: {
         // width: '100%',
         // height: '30%',

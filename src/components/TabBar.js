@@ -6,9 +6,10 @@ import { Ionicons, Entypo, MaterialCommunityIcons, FontAwesome} from '@expo/vect
 
 import { ROUTES } from '../../routes';
 import HomeScreen from '../screens/HomeScreen';
-import ChatScreen from '../../screens/ChatScreen';
-import ImageScreen from '../../screens/ImageScreen';
-import VoiceScreen from '../../screens/VoiceScreen';
+import ChatScreen from '../screens/ChatScreen';
+import ImageScreen from '../screens/ImageScreen';
+import VoiceScreen from '../screens/VoiceScreen';
+import CameraScreen from '../screens/CameraScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -69,17 +70,20 @@ const TabBar = () => {
                             // const tabName = 'Inicio';
                             // styleFocused(focused, componentName);
                             
-                            if (focused) {
-                                const iconColor = 'white';
-                                return (
-                                    <View style={{backgroundColor: 'black'}}>
-                                        <Entypo  size={20} color={iconColor} />
-                                    </View>
-                                )    
-                            } else {
-                                const iconColor = 'gray';
-                                return <Entypo  size={20} color={iconColor} />
-                            }
+                            // if (focused) {
+                            //     const iconColor = 'white';
+                            //     return (
+                            //         <View style={{backgroundColor: 'black'}}>
+                            //             <Entypo  size={20} color={iconColor} />
+                            //         </View>
+                            //     )    
+                            // } else {
+                            //     const iconColor = 'gray';
+                            //     return <Entypo  size={20} color={iconColor} />
+                            // }
+
+                            const iconColor = focused ? 'black' : 'gray';
+                            return <Entypo name="home" size={20} color={iconColor} /> // Si solo hace esto
                         }
                     }}  
                 />
@@ -100,12 +104,15 @@ const TabBar = () => {
                     options={{ 
                         headerShown: false,
                         tabBarIcon: ({ color, size, focused }) => {
+                            // const iconColor = focused ? 'black' : 'gray';
+                            // return ( // Ejemplo:
+                            //     <View style={{backgroundColor: 'black'}}>
+                            //         <Ionicons name="chatbubbles" size={20} color={iconColor} />
+                            //     </View>
+                            // );
+
                             const iconColor = focused ? 'black' : 'gray';
-                            return (
-                                <View style={{backgroundColor: 'black'}}>
-                                    <Ionicons name="chatbubbles" size={20} color={iconColor} />
-                                </View>
-                            );
+                            return <Ionicons name="chatbubbles" size={20} color={iconColor} />
                         },
                         
                     }}  
@@ -120,6 +127,12 @@ const TabBar = () => {
                             return <FontAwesome name="microphone" size={20} color={iconColor} />
                         }
                     }}  
+                />
+                {/* Hidden */}
+                <Tab.Screen 
+                    name={ROUTES.CAMERA} 
+                    component={CameraScreen}
+                    options={{ tabBarButton: () => null, tabBarVisible: false }}
                 />
             </Tab.Navigator>
             </View>

@@ -3,4 +3,5 @@ export const ROUTES = {
     CHAT: 'Chat',
     IMAGE: 'Image',
     VOICE: 'Voice',
+    CAMERA: 'Camera',
 }

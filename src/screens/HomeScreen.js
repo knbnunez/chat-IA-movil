@@ -7,12 +7,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import StatBox from './../components/StatBox';
 import ActivityBox from './../components/ActivityBox';
-import { ROUTES } from '../routes';
+import { ROUTES } from './../../routes';
 
 const HomeScreen = () => {
   const [fontsLoaded] = useFonts({
-    'DMSans': require('./../assets/fonts/DMSans-Regular.ttf'),
-    'DMSansBold': require('./../assets/fonts/DMSans-Bold.ttf'),
+    'DMSans': require('./../../assets/fonts/DMSans-Regular.ttf'),
+    'DMSansBold': require('./../../assets/fonts/DMSans-Bold.ttf'),
   });
   if (!fontsLoaded) {
     return null;
