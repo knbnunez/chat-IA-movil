@@ -10,6 +10,8 @@ import ActivityBox from './../components/ActivityBox';
 import { ROUTES } from './../../routes';
 
 const HomeScreen = () => {
+  
+  // TODO: Mover a --> App.js
   const [fontsLoaded] = useFonts({
     'DMSans': require('./../../assets/fonts/DMSans-Regular.ttf'),
     'DMSansBold': require('./../../assets/fonts/DMSans-Bold.ttf'),
