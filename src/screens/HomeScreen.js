@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import { useFonts } from 'expo-font';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,27 +7,13 @@ import StatBox from './../components/StatBox';
 import ActivityBox from './../components/ActivityBox';
 import { ROUTES } from './../../routes';
 
+const statBoxData = [
+
+];
+
 const HomeScreen = () => {
-  const [fontsLoaded] = useFonts({
-    'DMSans': require('./../../assets/fonts/DMSans-Regular.ttf'),
-    'DMSansBold': require('./../../assets/fonts/DMSans-Bold.ttf'),
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  // const [count, setCount] = useState(0);
-  // setInterval(() => {
-  //   if (count < 9999) setCount(count + 1);
-  //   else setCount(3000);
-  // }, 1000);
-
   const navigation = useNavigation();
   const _handlePress = () => navigation.navigate(ROUTES.CHAT);
-  // const _handlePress = (name) => {
-  //   if (name == 'CHAT') navigation.navigate(ROUTES.CHAT);
-  //   else navigation.navigate(ROUTES.HOME);
-  // }
   
   return (
     <View style={styles.container}>
@@ -37,46 +21,31 @@ const HomeScreen = () => {
       <Text style={styles.subtitle}>Resumen</Text>
 
       <View style={styles.statBoxContainer}>
-        
         <StatBox 
-          // style={styles.statBox} 
-          // source='./assets/images/Fueguito.svg' # No se pudo mandarle el source para el string del require (del Image)
-          // sourceStyle='{height: 16, width: 13}'
+          // iconComponent='IonIcons' // No se puede, debe ser el componente en sí, porque el mismo retorna una funición, no es solamente un nombre.
+          iconName='chatbubbles'
           boxText='3.950'
-          boxSubtext='Rtas. gen.' // 3.950
+          boxSubtext='Rtas. gen.'
         >
-          <Ionicons 
+          {/* <Ionicons 
             name="chatbubbles" 
             size={20} 
             color="#0070F0" 
-          />
+          /> */}
         </StatBox>
-
         <StatBox 
+          iconName='image'
           boxText='1.000' 
           boxSubtext='Img. gen.'
-        >
-          {/* <Image source={require("./assets/images/imagen.png")} style={{ width: 15, height: 13 }}/> */}
-          <Ionicons 
-            name="image" 
-            size={20} 
-            color="#0070F0" 
-          />
-        </StatBox>
+        />
         <StatBox 
+          iconName='mic'
           boxText='15' 
           boxSubtext='Trad. real.'
-        >
-          <FontAwesome 
-            name="microphone" 
-            size={20} 
-            color="#0070F0" 
-          />
-        </StatBox>
+        />
       </View>
 
       <View style={styles.activityBoxContainer}>  
-        {/* <Pressable onPressIn={() => _handlePress('CHAT')}> */}
         <Pressable onPressIn={_handlePress}>
           <ActivityBox 
             style={{backgroundColor: '#FFF9F0'}} 
@@ -85,24 +54,19 @@ const HomeScreen = () => {
             categoryTitle='CHATEÁ'
           />
         </Pressable>
-        {/* <Pressable onPressIn={() => _handlePress('HOME')}> */}
-          <ActivityBox 
-            style={{backgroundColor: '#F0F0FF'}} 
-            excerciseTitle='Canal de imágen' 
-            excerciseSubtitle='Imágenes desde en imágenes' 
-            categoryTitle='CREÁ'
-          />
-        {/* </Pressable> */}
-        {/* <Pressable onPressIn={() => _handlePress('HOME')}>  */}
-          <ActivityBox 
-            style={{backgroundColor: '#FFF0FD'}} 
-            excerciseTitle='Canal de voz' 
-            excerciseSubtitle='Convertí voz a texto' 
-            categoryTitle='HABLÁ'
-          />        
-        {/* </Pressable> */}
+        <ActivityBox 
+          style={{backgroundColor: '#F0F0FF'}} 
+          excerciseTitle='Canal de imágen' 
+          excerciseSubtitle='Imágenes desde en imágenes' 
+          categoryTitle='CREÁ'
+        />
+        <ActivityBox 
+          style={{backgroundColor: '#FFF0FD'}} 
+          excerciseTitle='Canal de voz' 
+          excerciseSubtitle='Convertí voz a texto' 
+          categoryTitle='HABLÁ'
+        />        
       </View>
-
     </View>
   );
 }; 
