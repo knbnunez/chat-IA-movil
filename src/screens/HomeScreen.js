@@ -8,7 +8,50 @@ import ActivityBox from './../components/ActivityBox';
 import { ROUTES } from './../../routes';
 
 const statBoxData = [
+  // Para poder contener los datos que se envían como parámetros al componente Statbox, se crean objetos con los mismos
+  {
+    iconName: "chatbubbles",
+    boxText: "3.950",
+    boxSubtext: "Rtas. gen."
+  },
+  {
+    iconName: "image",
+    boxText: "1.000",
+    boxSubtext: "Img. gen."
+  },
+  {
+    iconName: "mic",
+    boxText: "15",
+    boxSubtext: "Trad. real."
+  },
+];
 
+const activityBoxData = [
+  {
+    // Al crear style como un objeto de objetos, me permite agregarle varios atributos
+    style: {
+      backgroundColor: "#FFF9F0"
+    }, 
+    excerciseTitle: "Canal de texto", 
+    excerciseSubtitle: "Chatea con la IA", 
+    categoryTitle: "CHATEÁ"
+  },
+  {
+    style: {
+      backgroundColor: "#F0F0FF"
+    }, 
+    excerciseTitle: "Canal de imágen", 
+    excerciseSubtitle: "Imágenes desde en imágenes",
+    categoryTitle: "CREÁ"
+  },
+  {
+    style: {
+      backgroundColor: "#FFF0FD"
+    },
+    excerciseTitle: "Canal de voz", 
+    excerciseSubtitle: "Convertí voz a texto",
+    categoryTitle: "HABLÁ"
+  },
 ];
 
 const HomeScreen = () => {
@@ -21,51 +64,22 @@ const HomeScreen = () => {
       <Text style={styles.subtitle}>Resumen</Text>
 
       <View style={styles.statBoxContainer}>
-        <StatBox 
-          // iconComponent='IonIcons' // No se puede, debe ser el componente en sí, porque el mismo retorna una funición, no es solamente un nombre.
-          iconName='chatbubbles'
-          boxText='3.950'
-          boxSubtext='Rtas. gen.'
-        >
-          {/* <Ionicons 
-            name="chatbubbles" 
-            size={20} 
-            color="#0070F0" 
-          /> */}
-        </StatBox>
-        <StatBox 
-          iconName='image'
-          boxText='1.000' 
-          boxSubtext='Img. gen.'
-        />
-        <StatBox 
-          iconName='mic'
-          boxText='15' 
-          boxSubtext='Trad. real.'
-        />
+        {/* Debemos retornar los componentes para poder visualizarlos, por eso se elige usar map */}
+        {statBoxData.map((data) => <StatBox {...data}/>)} 
+        {/* Como entra todo en una línea de código, no es necesario agregar los corchetes de inicio y fin + return */}
       </View>
 
       <View style={styles.activityBoxContainer}>  
-        <Pressable onPressIn={_handlePress}>
+        {/* <Pressable onPressIn={_handlePress}>
           <ActivityBox 
             style={{backgroundColor: '#FFF9F0'}} 
             excerciseTitle='Canal de texto' 
             excerciseSubtitle='Chatea con la IA' 
             categoryTitle='CHATEÁ'
           />
-        </Pressable>
-        <ActivityBox 
-          style={{backgroundColor: '#F0F0FF'}} 
-          excerciseTitle='Canal de imágen' 
-          excerciseSubtitle='Imágenes desde en imágenes' 
-          categoryTitle='CREÁ'
-        />
-        <ActivityBox 
-          style={{backgroundColor: '#FFF0FD'}} 
-          excerciseTitle='Canal de voz' 
-          excerciseSubtitle='Convertí voz a texto' 
-          categoryTitle='HABLÁ'
-        />        
+        </Pressable> */}
+        {/* Añadir pressable */}
+        {activityBoxData.map((data) => <ActivityBox {...data}/>)}
       </View>
     </View>
   );
