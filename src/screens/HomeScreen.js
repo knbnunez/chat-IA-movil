@@ -27,6 +27,7 @@ const statBoxData = [
 ];
 
 const activityBoxData = [
+  // Chat
   {
     // Al crear style como un objeto de objetos, me permite agregarle varios atributos
     style: {
@@ -34,29 +35,35 @@ const activityBoxData = [
     }, 
     excerciseTitle: "Canal de texto", 
     excerciseSubtitle: "Chatea con la IA", 
-    categoryTitle: "CHATEÁ"
+    categoryTitle: "CHATEÁ",
+    // RUTEO
+    routeName: ROUTES.CHAT
   },
+  // Imagen
   {
     style: {
       backgroundColor: "#F0F0FF"
     }, 
     excerciseTitle: "Canal de imágen", 
     excerciseSubtitle: "Imágenes desde en imágenes",
-    categoryTitle: "CREÁ"
+    categoryTitle: "CREÁ",
+    routeName: ROUTES.IMAGE
   },
+  // Voz
   {
     style: {
       backgroundColor: "#FFF0FD"
     },
     excerciseTitle: "Canal de voz", 
     excerciseSubtitle: "Convertí voz a texto",
-    categoryTitle: "HABLÁ"
+    categoryTitle: "HABLÁ",
+    routeName: ROUTES.VOICE
   },
 ];
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const _handlePress = () => navigation.navigate(ROUTES.CHAT);
+  const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
   
   return (
     <View style={styles.container}>
@@ -79,7 +86,13 @@ const HomeScreen = () => {
           />
         </Pressable> */}
         {/* Añadir pressable */}
-        {activityBoxData.map((data) => <ActivityBox {...data}/>)}
+        {activityBoxData.map((data) => {
+          return (
+            // TODO: Arreglar la navegación, ERROR: You need to specify name or key... Aunque ya le esté definiendo uno
+            <Pressable onPressIn={navigateTo(data.routeName)}>
+              <ActivityBox {...data}/>  
+            </Pressable>
+        )})}
       </View>
     </View>
   );
