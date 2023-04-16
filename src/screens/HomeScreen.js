@@ -72,25 +72,15 @@ const HomeScreen = () => {
 
       <View style={styles.statBoxContainer}>
         {/* Debemos retornar los componentes para poder visualizarlos, por eso se elige usar map */}
-        {statBoxData.map((data) => <StatBox {...data}/>)} 
+        {statBoxData.map((data) => <StatBox {...data} key={data.iconName}/>)} 
         {/* Como entra todo en una línea de código, no es necesario agregar los corchetes de inicio y fin + return */}
       </View>
 
-      <View style={styles.activityBoxContainer}>  
-        {/* <Pressable onPressIn={_handlePress}>
-          <ActivityBox 
-            style={{backgroundColor: '#FFF9F0'}} 
-            excerciseTitle='Canal de texto' 
-            excerciseSubtitle='Chatea con la IA' 
-            categoryTitle='CHATEÁ'
-          />
-        </Pressable> */}
-        {/* Añadir pressable */}
+      <View style={styles.activityBoxContainer}>
         {activityBoxData.map((data) => {
           return (
-            // TODO: Arreglar la navegación, ERROR: You need to specify name or key... Aunque ya le esté definiendo uno
             <Pressable onPressIn={navigateTo(data.routeName)}>
-              <ActivityBox {...data}/>  
+              <ActivityBox {...data} key={data.excerciseTitle}/>  
             </Pressable>
         )})}
       </View>
