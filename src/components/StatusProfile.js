@@ -1,5 +1,5 @@
 import { Text, View, Dimensions, StyleSheet, Pressable, } from "react-native";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
@@ -16,8 +16,9 @@ export default StatusProfile = ({style: customStyle}) => {
                 </Pressable>
             </View> */}
             <View style={{ flexDirection: "row", height: "100%", width: windowWidth, alignItems: "center", justifyContent: "center" }}>
-                <View style={{ marginLeft: "-32%", marginRight: "10%" }}>
-                    <FontAwesome5 name="robot" size={24} color="black" />
+                <View style={{ marginLeft: "-28%", marginRight: "6%" }}>
+                    {/* <FontAwesome5 name="robot" size={24} color="black" /> */}
+                    <MaterialCommunityIcons name="robot-excited-outline" size={31} color="black" />
                 </View>
                 <View>
                     <Text style={{ fontFamily: 'DMSansBold', fontSize: 14, color: "#202325", }}>

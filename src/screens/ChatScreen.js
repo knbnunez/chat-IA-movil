@@ -13,9 +13,10 @@ import { useState } from "react/cjs/react.development";
 
 import StatusProfile from "../components/StatusProfile";
 import UserMsgBubble from '../components/UserMsgBubble';
+import IAMsgBubble from '../components/IAMsgBubble';
 
 const ChatScreen = () => {
-    const [texto, setTexto] = useState("");
+    const [texto, setTexto] = useState(""); // IMPORTANTE: setState = Admite un valor o una función
     const [msgs, setMsgs] = useState([]);
 
     const _AddUserMsg = () => {
@@ -33,7 +34,12 @@ const ChatScreen = () => {
                     style={{ height: Dimensions.get("screen").height * 0.7, width: Dimensions.get("screen").width, paddingHorizontal: "7%" }}
                     contentContainerStyle={{ gap: 20 }}
                 >
-                    {msgs.map((msg, idx) => <UserMsgBubble msg={msg} idx={`msg-${idx}`} />)}
+                    {msgs.map((msg, idx) => (
+                        <>
+                            <UserMsgBubble msg={msg} idx={`msg-${idx}`} /> 
+                            <IAMsgBubble msg={msg} idx={`msg-${idx}`} /> 
+                       </>
+                    ))}
                 </ScrollView>
 
                 <View style={{ flexDirection: "row", justifyContent: "center", gap: 10, paddingTop: "2%", paddingBottom: "4%",}}>
@@ -72,7 +78,7 @@ export default ChatScreen;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "white",
+        backgroundColor: "#fff",
         flex: 1,
         justifyContent: "space-between",
         alignItems: "center",
