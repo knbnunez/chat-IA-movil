@@ -13,31 +13,62 @@ import CameraScreen from '../screens/CameraScreen';
 
 const Tab = createBottomTabNavigator();
 
-// const styleFocused = (focused, componentName, tabName) => {
-//     const iconColor = 'gray';
-//     // const componentName = componentName;
-//     if (focused) {
-//         iconColor = 'white';
-//         return (
-//             <View style={{backgroundColor: 'black'}}>
-//                 <componentName size={20} color={iconColor} />
-//                 <Text>tabName</Text>
-//             </View> 
-//         );
-        
-//     } else {
-//         return <componentName size={20} color={iconColor} />
-//     }
-// }
+// Componente
+const CustomIcon = ({ focused, iconName, label }) => (
+    <View
+        style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5,
+        backgroundColor: focused ? "black" : "transparent",
+        padding: 10,
+        borderRadius: 30,
+        height: 40,
+        }}
+    >
+        <Ionicons name={iconName} size={21.5} color={focused ? "white" : "#72777A"} />
+        {focused && <Text style={{ color: "white" }}>{label}</Text>}
+    </View>
+);
+
+const tabScreenData = [
+    {
+        name: ROUTES.HOME,
+        component: HomeScreen,
+        options: { 
+            headerShown: false,
+            tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="home" label="INICIO" />,
+        }
+    },
+    {
+        name: ROUTES.CHAT,
+        component: ChatScreen,
+        options: { 
+            headerShown: false,
+            tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="chatbubbles-sharp" label="TEXTO" />
+        }
+    },
+    {
+        name: ROUTES.IMAGE,
+        component: ImageScreen,
+        options: { 
+            headerShown: false,
+            tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="image" label="IMAGEN" />
+        }
+    },
+    {
+        name: ROUTES.VOICE,
+        component: VoiceScreen,
+        options: { 
+            headerShown: false,
+            tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="mic" label="VOZ" />
+        }
+    },
+];
 
 const TabBar = () => {
     return (
         <NavigationContainer>
-            <View style={{ 
-                flex: 1, 
-                // backgroundColor: 'green' 
-                backgroundColor: '#191A1B' 
-            }}>
             <Tab.Navigator 
                 initialRouteName={ROUTES.HOME}
                 screenOptions={{
@@ -46,88 +77,23 @@ const TabBar = () => {
                     // tabBarInactiveTintColor: 'gray',
                     // tabBarLabel: null, // No me funcionó
                     tabBarShowLabel: false, // Este sí
-                    tabBarStyle: { 
-                        marginHorizontal: 25, 
-                        borderRadius: 22, 
-                        backgroundColor: 'white',
-                        height: '9%',
-                        shadowColor: "#FFF", //DarkMode
-                        // shadowColor: "#000",
-                        shadowOffset: { width: 2.5, height: 1.5 },
-                        shadowOpacity: 0.2,
-                        shadowRadius: 2.5,
-                        elevation: 5
+                    tabBarStyle: { // Dejó de ser flotante el TabBar
+                        paddingHorizontal: "2%",
+                        height: "8%",
+                        // marginHorizontal: 25, 
+                        // borderRadius: 22, 
+                        // backgroundColor: 'red',
+                        // height: '9%',
+                        // shadowColor: "#FFF", //DarkMode
+                        // // shadowColor: "#000",
+                        // shadowOffset: { width: 2.5, height: 1.5 },
+                        // shadowOpacity: 0.2,
+                        // shadowRadius: 2.5,
+                        // elevation: 5
                     },
                 }}
             >
-                <Tab.Screen 
-                    name={ROUTES.HOME} 
-                    component={HomeScreen} 
-                    options={{ 
-                        headerShown: false,
-                        tabBarIcon: ({ color, size, focused }) => { // Es lo mismo que hacer: tabBarIcon: (params) => { const {color, size} = params; ...}                  
-                            // const componentName = 'Entypo';
-                            // const tabName = 'Inicio';
-                            // styleFocused(focused, componentName);
-                            
-                            // if (focused) {
-                            //     const iconColor = 'white';
-                            //     return (
-                            //         <View style={{backgroundColor: 'black'}}>
-                            //             <Entypo  size={20} color={iconColor} />
-                            //         </View>
-                            //     )    
-                            // } else {
-                            //     const iconColor = 'gray';
-                            //     return <Entypo  size={20} color={iconColor} />
-                            // }
-
-                            const iconColor = focused ? 'black' : 'gray';
-                            return <Entypo name="home" size={20} color={iconColor} /> // Si solo hace esto
-                        }
-                    }}  
-                />
-                <Tab.Screen 
-                    name={ROUTES.CHAT} 
-                    component={ChatScreen}
-                    options={{ 
-                        headerShown: false,
-                        tabBarIcon: ({ color, size, focused }) => {
-                            const iconColor = focused ? 'black' : 'gray';
-                            return <Ionicons name="image" size={20} color={iconColor} /> // Si solo hace esto
-                        }
-                    }}  
-                />
-                <Tab.Screen 
-                    name={ROUTES.IMAGE} 
-                    component={ImageScreen}
-                    options={{ 
-                        headerShown: false,
-                        tabBarIcon: ({ color, size, focused }) => {
-                            // const iconColor = focused ? 'black' : 'gray';
-                            // return ( // Ejemplo:
-                            //     <View style={{backgroundColor: 'black'}}>
-                            //         <Ionicons name="chatbubbles" size={20} color={iconColor} />
-                            //     </View>
-                            // );
-
-                            const iconColor = focused ? 'black' : 'gray';
-                            return <Ionicons name="chatbubbles" size={20} color={iconColor} />
-                        },
-                        
-                    }}  
-                />
-                <Tab.Screen 
-                    name={ROUTES.VOICE} 
-                    component={VoiceScreen}
-                    options={{ 
-                        headerShown: false,
-                        tabBarIcon: ({ color, size, focused }) => {
-                            const iconColor = focused ? 'black' : 'gray';
-                            return <FontAwesome name="microphone" size={20} color={iconColor} />
-                        }
-                    }}  
-                />
+                {tabScreenData.map((data) => <Tab.Screen {...data}/>)}
                 {/* Hidden */}
                 <Tab.Screen 
                     name={ROUTES.CAMERA} 
@@ -135,7 +101,6 @@ const TabBar = () => {
                     options={{ tabBarButton: () => null, tabBarVisible: false }}
                 />
             </Tab.Navigator>
-            </View>
         </NavigationContainer>
     );
 };

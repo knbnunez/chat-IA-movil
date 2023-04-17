@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        // elevation: 1,
     },
     excerciseContainer: {
         flexDirection: 'column',

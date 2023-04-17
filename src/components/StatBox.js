@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -11,20 +12,17 @@ const StatBox = (props) => {
     // sourceStyle, 
     boxText,
     boxSubtext,
+    iconName,
+
   } = props
   // console.log({source});
   // console.log({sourceStyle});
 
-  
-
   return (
     <View style={[styles.statBox, customStyle]}>
       <View style={styles.iconContainer}>
-        {children}
-        {/* <Image
-          source={require({source})}
-          // style={sourceStyle}
-        /> */}
+        {/* {children} */}
+        <Ionicons name={iconName} size={20} color="#0070F0" />
       </View>
       <View>
         <Text style={styles.boxText}>{boxText}</Text>
@@ -47,15 +45,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column', 
     justifyContent: 'space-between', 
     padding: 18,
-    // shadowColor: "#000",
-    shadowColor: "#FFF",
+    shadowColor: "#000",
+    // shadowColor: "#FFF", // Darkmode??
     shadowOffset: {
-      width: 6,
-      height: 6,
+      width: 5,
+      height: 5,
     },
     shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 12,
+    shadowRadius: 5,
+    elevation: 2,
   },
   // Falta hacer responsive esto
   iconContainer: {

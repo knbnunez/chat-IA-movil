@@ -1,67 +1,81 @@
-import { Text, View, Dimensions, Button, Image, Platform } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
-import * as ImagePicker from 'expo-image-picker';
-import { ROUTES } from './../../routes';
+import {
+    Button,
+    KeyboardAvoidingView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    Dimensions,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react/cjs/react.development";
 
-const Stack = createNativeStackNavigator();
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import StatusProfile from "../components/StatusProfile";
+import UserMsgBubble from '../components/UserMsgBubble';
 
 const ChatScreen = () => {
+    const [texto, setTexto] = useState("");
+    const [msgs, setMsgs] = useState([]);
 
-    //             <View style={{ backgroundColor: 'green', height: '70%' }}>
-    //                 <Text style={{ color: 'white', alignSelf: 'center' }}>Chat</Text>
-    //             </View>
-    //             <View style={{ backgroundColor: 'blue', height: '15%' }}>
-    //                 <Text style={{ color: 'white', alignSelf: 'center' }}>Escribir un mensaje...</Text>
-    //             </View>
-    //         </SafeAreaView>
-    //   );
-
-    const [image, setImage] = useState(null);
-
-    const _handleImagePress = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        console.log(result);
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
-    };
-
-    const navigation = useNavigation();
-
-    const _handleCameraPress = () => navigation.navigate(ROUTES.CAMERA);
+    const _AddUserMsg = () => {
+        setMsgs(msgs.concat(texto)); // Se añade al array
+        setTexto(""); // Y se resetea el texto de input
+    }
 
     return (
-        <SafeAreaView>
-            <View style={{ backgroundColor: 'red', height: '15%', justifyContent: 'center' }}>
-                <Text style={{ color: 'white', alignSelf: 'center' }}>Canal de Texto</Text>
-            </View>
-            <View style={{ backgroundColor: 'green', height: '70%', justifyContent: 'space-around' }}>
-                <Text style={{ color: 'white', alignSelf: 'center' }}>Chat</Text>
-                
-                <Button title="Selecciona una imagen de tu galería" onPress={_handleImagePress} />
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+        <View style={styles.container}>  
+            {/* Barra de estado */}
+            <StatusProfile style={{  }}></StatusProfile>
 
-                <Button title="Cámara" onPress={_handleCameraPress} />
-            </View>
-            <View style={{ backgroundColor: 'blue', height: '15%' }}>
-                <Text style={{ color: 'white', alignSelf: 'center' }}>Escribir un mensaje...</Text>
-            </View>
-        </SafeAreaView>
+            <KeyboardAvoidingView style={{ flex: 1 }} >
+                <ScrollView 
+                    style={{ height: Dimensions.get("screen").height * 0.7, width: Dimensions.get("screen").width, paddingHorizontal: "7%" }}
+                    contentContainerStyle={{ gap: 20 }}
+                >
+                    {msgs.map((msg, idx) => <UserMsgBubble msg={msg} idx={`msg-${idx}`} />)}
+                </ScrollView>
+
+                <View style={{ flexDirection: "row", justifyContent: "center", gap: 10, paddingTop: "2%", paddingBottom: "4%",}}>
+                    <View
+                        style={{
+                            width: 265,
+                            height: 45,
+                            borderRadius: 22,
+                            borderWidth: 1,
+                            borderColor: "#979C9E",
+                        }}
+                    >
+                        <TextInput
+                            style={{ width: 260, height: 40, paddingHorizontal: 10 }}
+                            value={texto}
+                            onChangeText={(data) => setTexto(data)}
+                            onEndEditing={_AddUserMsg}
+                        />
+                    </View>
+                    <Ionicons.Button
+                        name="ios-paper-plane-outline"
+                        size={24}
+                        color="white"
+                        backgroundColor="#303437"
+                        borderRadius={24}
+                        iconStyle={{ marginLeft: 5, marginTop: 2 }}
+                        onPress={_AddUserMsg}
+                    />
+                </View>
+            </KeyboardAvoidingView>
+        </View>
     );
 };
 
 export default ChatScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "white",
+        flex: 1,
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingTop: 40,
+    },
+});

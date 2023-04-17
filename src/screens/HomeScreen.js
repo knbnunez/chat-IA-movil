@@ -1,37 +1,69 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import React, { useState } from 'react';
-import { useFonts } from 'expo-font';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 
-import StatBox from './../components/StatBox';
-import ActivityBox from './../components/ActivityBox';
-import { ROUTES } from './../../routes';
+import StatBox from '../components/StatBox';
+import ActivityBox from '../components/ActivityBox';
+import { ROUTES } from '../../routes';
+
+const statBoxData = [
+  // Para poder contener los datos que se envían como parámetros al componente Statbox, se crean objetos con los mismos
+  {
+    iconName: "chatbubbles",
+    boxText: "3.950",
+    boxSubtext: "Rtas. gen."
+  },
+  {
+    iconName: "image",
+    boxText: "1.000",
+    boxSubtext: "Img. gen."
+  },
+  {
+    iconName: "mic",
+    boxText: "15",
+    boxSubtext: "Trad. real."
+  },
+];
+
+const activityBoxData = [
+  // Chat
+  {
+    // Al crear style como un objeto de objetos, me permite agregarle varios atributos
+    style: {
+      backgroundColor: "#FFF9F0"
+    }, 
+    excerciseTitle: "Canal de texto", 
+    excerciseSubtitle: "Chatea con la IA", 
+    categoryTitle: "CHATEÁ",
+    // RUTEO
+    routeName: ROUTES.CHAT
+  },
+  // Imagen
+  {
+    style: {
+      backgroundColor: "#F0F0FF"
+    }, 
+    excerciseTitle: "Canal de imágen", 
+    excerciseSubtitle: "Imágenes desde en imágenes",
+    categoryTitle: "CREÁ",
+    routeName: ROUTES.IMAGE
+  },
+  // Voz
+  {
+    style: {
+      backgroundColor: "#FFF0FD"
+    },
+    excerciseTitle: "Canal de voz", 
+    excerciseSubtitle: "Convertí voz a texto",
+    categoryTitle: "HABLÁ",
+    routeName: ROUTES.VOICE
+  },
+];
 
 const HomeScreen = () => {
-  
-  // TODO: Mover a --> App.js
-  const [fontsLoaded] = useFonts({
-    'DMSans': require('./../../assets/fonts/DMSans-Regular.ttf'),
-    'DMSansBold': require('./../../assets/fonts/DMSans-Bold.ttf'),
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  // const [count, setCount] = useState(0);
-  // setInterval(() => {
-  //   if (count < 9999) setCount(count + 1);
-  //   else setCount(3000);
-  // }, 1000);
-
   const navigation = useNavigation();
-  const _handlePress = () => navigation.navigate(ROUTES.CHAT);
-  // const _handlePress = (name) => {
-  //   if (name == 'CHAT') navigation.navigate(ROUTES.CHAT);
-  //   else navigation.navigate(ROUTES.HOME);
-  // }
+  const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
   
   return (
     <View style={styles.container}>
@@ -39,72 +71,19 @@ const HomeScreen = () => {
       <Text style={styles.subtitle}>Resumen</Text>
 
       <View style={styles.statBoxContainer}>
-        
-        <StatBox 
-          // style={styles.statBox} 
-          // source='./assets/images/Fueguito.svg' # No se pudo mandarle el source para el string del require (del Image)
-          // sourceStyle='{height: 16, width: 13}'
-          boxText='3.950'
-          boxSubtext='Rtas. gen.' // 3.950
-        >
-          <Ionicons 
-            name="chatbubbles" 
-            size={20} 
-            color="#0070F0" 
-          />
-        </StatBox>
-
-        <StatBox 
-          boxText='1.000' 
-          boxSubtext='Img. gen.'
-        >
-          {/* <Image source={require("./assets/images/imagen.png")} style={{ width: 15, height: 13 }}/> */}
-          <Ionicons 
-            name="image" 
-            size={20} 
-            color="#0070F0" 
-          />
-        </StatBox>
-        <StatBox 
-          boxText='15' 
-          boxSubtext='Trad. real.'
-        >
-          <FontAwesome 
-            name="microphone" 
-            size={20} 
-            color="#0070F0" 
-          />
-        </StatBox>
+        {/* Debemos retornar los componentes para poder visualizarlos, por eso se elige usar map */}
+        {statBoxData.map((data) => <StatBox {...data} key={data.iconName}/>)} 
+        {/* Como entra todo en una línea de código, no es necesario agregar los corchetes de inicio y fin + return */}
       </View>
 
-      <View style={styles.activityBoxContainer}>  
-        {/* <Pressable onPressIn={() => _handlePress('CHAT')}> */}
-        <Pressable onPressIn={_handlePress}>
-          <ActivityBox 
-            style={{backgroundColor: '#FFF9F0'}} 
-            excerciseTitle='Canal de texto' 
-            excerciseSubtitle='Chatea con la IA' 
-            categoryTitle='CHATEÁ'
-          />
-        </Pressable>
-        {/* <Pressable onPressIn={() => _handlePress('HOME')}> */}
-          <ActivityBox 
-            style={{backgroundColor: '#F0F0FF'}} 
-            excerciseTitle='Canal de imágen' 
-            excerciseSubtitle='Imágenes desde en imágenes' 
-            categoryTitle='CREÁ'
-          />
-        {/* </Pressable> */}
-        {/* <Pressable onPressIn={() => _handlePress('HOME')}>  */}
-          <ActivityBox 
-            style={{backgroundColor: '#FFF0FD'}} 
-            excerciseTitle='Canal de voz' 
-            excerciseSubtitle='Convertí voz a texto' 
-            categoryTitle='HABLÁ'
-          />        
-        {/* </Pressable> */}
+      <View style={styles.activityBoxContainer}>
+        {activityBoxData.map((data) => {
+          return (
+            <Pressable onPressIn={navigateTo(data.routeName)}>
+              <ActivityBox {...data} key={data.excerciseTitle}/>  
+            </Pressable>
+        )})}
       </View>
-
     </View>
   );
 }; 
@@ -115,23 +94,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, // Se establece el tamaño al máx en relación con su contenedor, en este caso, container principal: toda la pantalla
     flexDirection: 'column',
-    backgroundColor: '#191A1B', // DarkMode?
-    // backgroundColor: '#FFF',
+    // backgroundColor: '#191A1B', // DarkMode?
     paddingHorizontal: 24,
+    paddingTop: 40,
+    backgroundColor: '#fff'
   },
   title: {
     fontFamily: 'DMSansBold',
-    fontSize: 24,
-    color: '#fff', //DarkMode?
+    fontSize: 25,
+    // color: '#fff', //DarkMode?
     // color: '#000',
-    marginTop: 60,
+    // marginTop: 60,
   },
   subtitle: {
     fontFamily: 'DMSans',
-    fontSize: 18,
-    color: '#fff', //DarkMode?
+    fontSize: 19,
+    // color: '#fff', //DarkMode?
     // color: '#000',
-    marginVertical: 16,
+    marginVertical: 13,
   },  
   statBoxContainer: {
     // maxHeight: '18%',
@@ -139,16 +119,18 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: 'space-between',
     // backgroundColor: 'green',
-    backgroundColor: '#191A1B', 
+    // backgroundColor: '#191A1B', // Darkmode??
+    marginTop: "6%",
   },
   activityBoxContainer: {
     // height: '50%',
     flexDirection: 'column', // Por defecto es column (React Native -> Mobile)
     flex: 1, // Expando al max en relación con su contenedor
-    justifyContent: 'space-around',
-    marginVertical: 12,
-    // marginBottom: 40,
+    justifyContent: 'space-between',
+    marginTop: 15,
+    marginBottom: "30%",
+    // marginVertical: "20%",
     // backgroundColor: 'blue',
-    backgroundColor: '#191A1B', 
+    // backgroundColor: '#191A1B', // Darkmode?
   },
 });
