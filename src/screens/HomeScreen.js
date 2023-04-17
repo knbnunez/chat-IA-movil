@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 
-import StatBox from './../components/StatBox';
-import ActivityBox from './../components/ActivityBox';
-import { ROUTES } from './../../routes';
+import StatBox from '../components/StatBox';
+import ActivityBox from '../components/ActivityBox';
+import { ROUTES } from '../../routes';
 
 const statBoxData = [
   // Para poder contener los datos que se envían como parámetros al componente Statbox, se crean objetos con los mismos
@@ -97,20 +97,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#191A1B', // DarkMode?
     // backgroundColor: '#FFF',
     paddingHorizontal: 24,
+    paddingTop: 40,
   },
   title: {
     fontFamily: 'DMSansBold',
     fontSize: 24,
     color: '#fff', //DarkMode?
     // color: '#000',
-    marginTop: 60,
+    // marginTop: 60,
   },
   subtitle: {
     fontFamily: 'DMSans',
     fontSize: 18,
     color: '#fff', //DarkMode?
     // color: '#000',
-    marginVertical: 16,
+    marginVertical: 13,
   },  
   statBoxContainer: {
     // maxHeight: '18%',
