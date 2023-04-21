@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons'; 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import StatBox from '../components/StatBox';
 import ActivityBox from '../components/ActivityBox';
 import { ROUTES } from '../../routes';
+import { getTextResponsesCount, incrementTextResponsesCount } from "../services/analitycStorageService";
 
 const statBoxData = [
   // Para poder contener los datos que se envían como parámetros al componente Statbox, se crean objetos con los mismos
@@ -63,8 +64,24 @@ const activityBoxData = [
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [textCount, setTextCount] = useState(null);
+  const isFocused = useIsFocused();
+
   const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
   
+  // TODO: meter la data dentro del statBox de chats, tal vez tenga que desacoplarlo del array...
+  const getNewCountValue = async () => {
+    const count = await getTextResponsesCount();
+    setTextCount(count);
+  }
+
+  useEffect(() => {
+    if (isFocused) {
+      getNewCountValue();
+    }
+  }, [isFocused])
+  
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Inicio</Text>
@@ -73,7 +90,6 @@ const HomeScreen = () => {
       <View style={styles.statBoxContainer}>
         {/* Debemos retornar los componentes para poder visualizarlos, por eso se elige usar map */}
         {statBoxData.map((data) => <StatBox {...data} key={data.iconName}/>)} 
-        {/* Como entra todo en una línea de código, no es necesario agregar los corchetes de inicio y fin + return */}
       </View>
 
       <View style={styles.activityBoxContainer}>

@@ -14,6 +14,8 @@ import React, { useState } from 'react';
 import StatusProfile from "../components/StatusProfile";
 import UserMsgBubble from '../components/UserMsgBubble';
 import IAMsgBubble from '../components/IAMsgBubble';
+import sendChatQuestion from "../services/IAService"
+import { getTextResponsesCount, incrementTextResponsesCount } from "../services/analitycStorageService";
 
 const ChatScreen = () => {
     const [text, setText] = useState(""); // IMPORTANTE: setState = Admite un valor o una función
@@ -21,13 +23,11 @@ const ChatScreen = () => {
   
     const fetchApi = async (message) => {
         try {
-            const response = await fetch(
-                `https://tnt2023.panaltesting.com.ar/chat?question=${message}`
-            );
-            const data = await response.json();
-            setMsgs((messagesUpdated) => messagesUpdated.concat({ message: data.mensaje, isUser: false }));
+            const answer = await sendChatQuestion(message);
+            incrementTextResponsesCount();
+            setMsgs((messagesUpdated) => messagesUpdated.concat({ message: answer.mensaje, isUser: false }));
         } catch (error) {
-            console.log("Error al hacer el Fetch: ", error);
+            console.warn("Error al hacer el Fetch: ", error);
         }
     };
 
