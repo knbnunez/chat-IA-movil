@@ -9,19 +9,35 @@ import {
     Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react/cjs/react.development";
+import React, { useState } from 'react';
 
 import StatusProfile from "../components/StatusProfile";
 import UserMsgBubble from '../components/UserMsgBubble';
 import IAMsgBubble from '../components/IAMsgBubble';
 
 const ChatScreen = () => {
-    const [texto, setTexto] = useState(""); // IMPORTANTE: setState = Admite un valor o una función
+    const [text, setText] = useState(""); // IMPORTANTE: setState = Admite un valor o una función
     const [msgs, setMsgs] = useState([]);
+  
+    const fetchApi = async (message) => {
+        try {
+            const response = await fetch(
+                `https://tnt2023.panaltesting.com.ar/chat?question=${message}`
+            );
+            const data = await response.json();
+            setMsgs((messagesUpdated) => messagesUpdated.concat({ message: data.mensaje, isUser: false }));
+        } catch (error) {
+            console.log("Error al hacer el Fetch: ", error);
+        }
+    };
 
-    const _AddUserMsg = () => {
-        setMsgs(msgs.concat(texto)); // Se añade al array
-        setTexto(""); // Y se resetea el texto de input
+    const _addUserMsg = () => {
+        if (text !== '') {
+            setMsgs(msgs.concat({ message: text, isUser: true})); // Estoy "definiendo" (implícitamente) que msgs es un arreglo de objetos de la manera {text, isUser}, con TypeScript creo que podría haberse definido una interfaz y luego hacer referencia a que msgs es un arreglo de objetos con esa interfaz.
+                                                                  // "text" es la variable que está instanciada arriba (proveniente de useState), isUser lo estoy inventando yo en el momento.
+            fetchApi(text);
+            setText(""); // Y se resetea el text de input
+        }
     }
 
     return (
@@ -35,11 +51,10 @@ const ChatScreen = () => {
                     contentContainerStyle={{ gap: 20 }}
                 >
                     {msgs.map((msg, idx) => (
-                        <>
-                            <UserMsgBubble msg={msg} idx={`msg-${idx}`} /> 
-                            <IAMsgBubble msg={msg} idx={`msg-${idx}`} /> 
-                       </>
-                    ))}
+                        msg.isUser? 
+                            (<UserMsgBubble msg={msg.message} idx={`msg-${idx}`} />) // Return this.
+                            : (<IAMsgBubble msg={msg.message} idx={`msg-${idx}`} />) // Else, return this.
+                     ))}
                 </ScrollView>
 
                 <View style={{ flexDirection: "row", justifyContent: "center", gap: 10, paddingTop: "2%", paddingBottom: "4%",}}>
@@ -54,9 +69,9 @@ const ChatScreen = () => {
                     >
                         <TextInput
                             style={{ width: 260, height: 40, paddingHorizontal: 10 }}
-                            value={texto}
-                            onChangeText={(data) => setTexto(data)}
-                            onEndEditing={_AddUserMsg}
+                            value={text}
+                            onChangeText={(data) => setText(data)}
+                            onEndEditing={_addUserMsg}
                         />
                     </View>
                     <Ionicons.Button
@@ -66,7 +81,7 @@ const ChatScreen = () => {
                         backgroundColor="#303437"
                         borderRadius={24}
                         iconStyle={{ marginLeft: 5, marginTop: 2 }}
-                        onPress={_AddUserMsg}
+                        onPress={_addUserMsg}
                     />
                 </View>
             </KeyboardAvoidingView>
