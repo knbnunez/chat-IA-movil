@@ -1,29 +1,29 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import StatBox from '../components/StatBox';
 import ActivityBox from '../components/ActivityBox';
 import { ROUTES } from '../../routes';
-import { getTextResponsesCount, incrementTextResponsesCount } from "../services/analitycStorageService";
+import { getTextResponsesCount } from "../services/analitycStorageService";
 
-const statBoxData = [
+let statBoxData = [
   // Para poder contener los datos que se envían como parámetros al componente Statbox, se crean objetos con los mismos
   {
     iconName: "chatbubbles",
-    boxText: "3.950",
-    boxSubtext: "Rtas. gen."
+    // text: "3.950",
+    subText: "Rtas. gen."
   },
   {
     iconName: "image",
-    boxText: "1.000",
-    boxSubtext: "Img. gen."
+    // text: "1.000",
+    subText: "Img. gen."
   },
   {
     iconName: "mic",
-    boxText: "15",
-    boxSubtext: "Trad. real."
+    // text: "15",
+    subText: "Trad. real."
   },
 ];
 
@@ -33,9 +33,9 @@ const activityBoxData = [
     // Al crear style como un objeto de objetos, me permite agregarle varios atributos
     style: {
       backgroundColor: "#FFF9F0"
-    }, 
-    excerciseTitle: "Canal de texto", 
-    excerciseSubtitle: "Chatea con la IA", 
+    },
+    excerciseTitle: "Canal de texto",
+    excerciseSubtitle: "Chatea con la IA",
     categoryTitle: "CHATEÁ",
     // RUTEO
     routeName: ROUTES.CHAT
@@ -44,8 +44,8 @@ const activityBoxData = [
   {
     style: {
       backgroundColor: "#F0F0FF"
-    }, 
-    excerciseTitle: "Canal de imágen", 
+    },
+    excerciseTitle: "Canal de imágen",
     excerciseSubtitle: "Imágenes desde en imágenes",
     categoryTitle: "CREÁ",
     routeName: ROUTES.IMAGE
@@ -55,7 +55,7 @@ const activityBoxData = [
     style: {
       backgroundColor: "#FFF0FD"
     },
-    excerciseTitle: "Canal de voz", 
+    excerciseTitle: "Canal de voz",
     excerciseSubtitle: "Convertí voz a texto",
     categoryTitle: "HABLÁ",
     routeName: ROUTES.VOICE
@@ -64,15 +64,17 @@ const activityBoxData = [
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [textCount, setTextCount] = useState(null);
   const isFocused = useIsFocused();
+  const [textData, setTextData] = useState([]);
 
   const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
-  
-  // TODO: meter la data dentro del statBox de chats, tal vez tenga que desacoplarlo del array...
+
   const getNewCountValue = async () => {
+    console.log("antes antes");
     const count = await getTextResponsesCount();
-    setTextCount(count);
+    console.log({ count: count });
+    setTextData([count, "algo", "algo 2"]);
+    console.log({ textData: textData });
   }
 
   useEffect(() => {
@@ -80,7 +82,7 @@ const HomeScreen = () => {
       getNewCountValue();
     }
   }, [isFocused])
-  
+
 
   return (
     <View style={styles.container}>
@@ -89,20 +91,28 @@ const HomeScreen = () => {
 
       <View style={styles.statBoxContainer}>
         {/* Debemos retornar los componentes para poder visualizarlos, por eso se elige usar map */}
-        {statBoxData.map((data) => <StatBox {...data} key={data.iconName}/>)} 
+        {statBoxData.map((data, idx) => {
+          // console.log(textData[idx]);
+          <StatBox {...data} text={textData?.idx ? textData[idx] : "00"} key={data.iconName}/>
+        
+        })} 
+        <StatBox {...statBoxData[0]} text={textData.length === 0 ? "0" : textData[0]}></StatBox>
+
+
       </View>
 
       <View style={styles.activityBoxContainer}>
         {activityBoxData.map((data) => {
           return (
             <Pressable onPressIn={navigateTo(data.routeName)}>
-              <ActivityBox {...data} key={data.excerciseTitle}/>  
+              <ActivityBox {...data} key={data.excerciseTitle} />
             </Pressable>
-        )})}
+          )
+        })}
       </View>
     </View>
   );
-}; 
+};
 
 export default HomeScreen;
 
@@ -128,10 +138,10 @@ const styles = StyleSheet.create({
     // color: '#fff', //DarkMode?
     // color: '#000',
     marginVertical: 13,
-  },  
+  },
   statBoxContainer: {
     // maxHeight: '18%',
-    flexDirection: 'row', 
+    flexDirection: 'row',
     // flex: 1,
     justifyContent: 'space-between',
     // backgroundColor: 'green',

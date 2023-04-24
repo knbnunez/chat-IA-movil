@@ -10,8 +10,8 @@ const StatBox = (props) => {
     children,
     // source,
     // sourceStyle, 
-    boxText,
-    boxSubtext,
+    text,
+    subText,
     iconName,
 
   } = props
@@ -25,8 +25,8 @@ const StatBox = (props) => {
         <Ionicons name={iconName} size={20} color="#0070F0" />
       </View>
       <View>
-        <Text style={styles.boxText}>{boxText}</Text>
-        <Text style={styles.boxSubtext}>{boxSubtext}</Text>
+        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.subText}>{subText}</Text>
       </View>
     </View>
   );
@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  boxText: {
+  text: {
     fontFamily: 'DMSansBold',
     fontSize: 14,
   },
-  boxSubtext: {
+  subText: {
     fontFamily: 'DMSansBold',
     fontSize: 12,
     color: '#72777A',
