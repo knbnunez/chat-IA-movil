@@ -6,7 +6,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import StatBox from '../components/StatBox';
 import ActivityBox from '../components/ActivityBox';
 import { ROUTES } from '../../routes';
-import { getTextResponsesCount } from "../services/analitycStorageService";
+import { getResponsesToBotCount } from "../services/analitycStorageService";
 
 let statBoxData = [
   // Para poder contener los datos que se envían como parámetros al componente Statbox, se crean objetos con los mismos
@@ -70,11 +70,9 @@ const HomeScreen = () => {
   const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
 
   const getNewCountValue = async () => {
-    console.log("antes antes");
-    const count = await getTextResponsesCount();
-    console.log({ count: count });
-    setTextData([count, "algo", "algo 2"]);
-    console.log({ textData: textData });
+    const count = await getResponsesToBotCount("text");
+    console.log(count);
+    setTextData([count]);
   }
 
   useEffect(() => {
@@ -91,11 +89,11 @@ const HomeScreen = () => {
 
       <View style={styles.statBoxContainer}>
         {/* Debemos retornar los componentes para poder visualizarlos, por eso se elige usar map */}
-        {statBoxData.map((data, idx) => {
+        {/* {statBoxData.map((data, idx) => {
           // console.log(textData[idx]);
           <StatBox {...data} text={textData?.idx ? textData[idx] : "00"} key={data.iconName}/>
         
-        })} 
+        })}  */}
         <StatBox {...statBoxData[0]} text={textData.length === 0 ? "0" : textData[0]}></StatBox>
 
 

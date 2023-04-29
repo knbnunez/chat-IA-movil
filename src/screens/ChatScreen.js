@@ -14,8 +14,8 @@ import React, { useState } from 'react';
 import StatusProfile from "../components/StatusProfile";
 import UserMsgBubble from '../components/UserMsgBubble';
 import IAMsgBubble from '../components/IAMsgBubble';
-import sendChatQuestion from "../services/IAService"
-import { getTextResponsesCount, incrementTextResponsesCount } from "../services/analitycStorageService";
+import { sendChatQuestion } from "../services/IAService"
+import { incrementResponsesToBotCount } from "../services/analitycStorageService";
 
 const ChatScreen = () => {
     const [text, setText] = useState(""); // IMPORTANTE: setState = Admite un valor o una función
@@ -24,7 +24,7 @@ const ChatScreen = () => {
     const fetchApi = async (message) => {
         try {
             const answer = await sendChatQuestion(message);
-            incrementTextResponsesCount();
+            incrementResponsesToBotCount("text");
             setMsgs((messagesUpdated) => messagesUpdated.concat({ message: answer.mensaje, isUser: false }));
         } catch (error) {
             console.warn("Error al hacer el Fetch: ", error);
@@ -51,8 +51,8 @@ const ChatScreen = () => {
                     contentContainerStyle={{ gap: 20 }}
                 >
                     {msgs.map((msg, idx) => (
-                        msg.isUser? 
-                            (<UserMsgBubble msg={msg.message} idx={`msg-${idx}`} />) // Return this.
+                        msg.isUser
+                            ? (<UserMsgBubble msg={msg.message} idx={`msg-${idx}`} />) // Return this.
                             : (<IAMsgBubble msg={msg.message} idx={`msg-${idx}`} />) // Else, return this.
                      ))}
                 </ScrollView>
