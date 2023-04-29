@@ -9,6 +9,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import { ROUTES } from './../../routes';
 import StatusProfile from "../components/StatusProfile";
+import { sendChatImage } from '../services/IAService'
 
 const Stack = createNativeStackNavigator();
 
@@ -16,20 +17,30 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const ImageScreen = () => {
-
-    //             <View style={{ backgroundColor: 'green', height: '70%' }}>
-    //                 <Text style={{ color: 'white', alignSelf: 'center' }}>Chat</Text>
-    //             </View>
-    //             <View style={{ backgroundColor: 'blue', height: '15%' }}>
-    //                 <Text style={{ color: 'white', alignSelf: 'center' }}>Escribir un mensaje...</Text>
-    //             </View>
-    //         </SafeAreaView>
-    //   );
-
+    const navigation = useNavigation();
     const [image, setImage] = useState(null);
+    const params = useRoute().params;
+    const isFocused = useIsFocused();
+
+    // Func nueva
+    const sendImage = async (imageUri) => {
+        const responseImg = await sendImageToChatbot(imageUri);
+        setChatMessages((chatMessages) =>
+            chatMessages.concat({ imageUri: responseImg, isUser: false })
+        );
+    };
+    useEffect(() => {
+        if (isFocused && params?.imageUri) {
+            setChatMessages((chatMessages) =>
+                chatMessages.concat({ imageUri: params.imageUri, isUser: true })
+            );
+            sendImage(params.imageUri);
+            navigation.setParams({ imageUri: undefined });
+        }
+    }, [isFocused, params]);
+
 
     const _handleImagePress = async () => {
-        // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -37,14 +48,10 @@ const ImageScreen = () => {
             quality: 1,
         });
 
-        console.log(result);
-
         if (!result.canceled) {
             setImage(result.assets[0].uri);
         }
     };
-
-    const navigation = useNavigation();
 
     const _handleCameraPress = () => navigation.navigate(ROUTES.CAMERA);
 
@@ -53,13 +60,11 @@ const ImageScreen = () => {
             {/* <View style={{ backgroundColor: 'red', height: '15%', justifyContent: 'center' }}>
                 <Text style={{ color: 'white', alignSelf: 'center' }}>Canal de Texto</Text>
             </View> */}
-            <StatusProfile style={{  }}></StatusProfile>
+            <StatusProfile style={{}}></StatusProfile>
             <View>
                 <Button title="Selecciona una imagen de tu galería" onPress={_handleImagePress} />
                 {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                 <Button title="Cámara" onPress={_handleCameraPress} />
-
-
                 <View style={styles.backgroundButtons}>
                     <FontAwesome name="camera" size={21} color="white" />
                     <Ionicons name="image" size={24} color="white" />
