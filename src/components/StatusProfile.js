@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default StatusProfile = ({style: customStyle}) => {
+export default StatusProfile = ({style: customStyle, title}) => {
     const navigation = useNavigation();
     
     return (
@@ -21,9 +21,7 @@ export default StatusProfile = ({style: customStyle}) => {
                     <MaterialCommunityIcons name="robot-excited-outline" size={31} color="black" />
                 </View>
                 <View>
-                    <Text style={{ fontFamily: 'DMSansBold', fontSize: 14, color: "#202325", }}>
-                        Canal de Texto
-                    </Text>
+                    <Text style={{ fontFamily: 'DMSansBold', fontSize: 14, color: "#202325", }}>{title}</Text>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
                         <View style={{ width: 8, height: 8, backgroundColor: "#7DDE86", borderRadius: 4, }} />
                         <Text style={{ fontFamily: 'DMSans', fontSize: 12, color: "#72777A", }}>

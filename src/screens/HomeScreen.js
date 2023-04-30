@@ -69,10 +69,11 @@ const HomeScreen = () => {
 
   const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
 
+  // TODO: FALTA HACER UN RECUENTO DE LAS IMÁGENES ENVIADAS
   const getNewCountValue = async () => {
     const count = await getResponsesToBotCount("text");
-    console.log(count);
-    setTextData([count]);
+    // console.log(count);
+    setTextData([count, 0, 0]);
   }
 
   useEffect(() => {
@@ -88,15 +89,7 @@ const HomeScreen = () => {
       <Text style={styles.subtitle}>Resumen</Text>
 
       <View style={styles.statBoxContainer}>
-        {/* Debemos retornar los componentes para poder visualizarlos, por eso se elige usar map */}
-        {/* {statBoxData.map((data, idx) => {
-          // console.log(textData[idx]);
-          <StatBox {...data} text={textData?.idx ? textData[idx] : "00"} key={data.iconName}/>
-        
-        })}  */}
-        <StatBox {...statBoxData[0]} text={textData.length === 0 ? "0" : textData[0]}></StatBox>
-
-
+        { statBoxData.map((data, idx) => <StatBox {...data} text={textData.length !== 0 ? textData[idx] : "0"} key={data.iconName} />) }
       </View>
 
       <View style={styles.activityBoxContainer}>

@@ -27,4 +27,4 @@ const sendChatImage = async (imageUri) => {
     });
 };
 
-export { sendChatQuestion };
+export { sendChatQuestion, sendChatImage };
