@@ -30,6 +30,12 @@ export default CameraScreen = () => {
     );
   }
 
+  function toggleCameraType() {
+    const newType =
+      type === CameraType.back ? CameraType.front : CameraType.back;
+    setType(newType);
+  }
+
   // Todavía no está implementado, hay que exportar con lo demás que haga falta del repo:
   // const takePicture = async () => {
   //   if (camera.current) {
@@ -47,12 +53,7 @@ export default CameraScreen = () => {
   // };
 
 
-  function toggleCameraType() {
-    const newType =
-      type === CameraType.back ? CameraType.front : CameraType.back;
-    setType(newType);
-  }
-
+  // TAKEPICTURE antiguo
   const takePicture = async () => {
     if (camera.current) {
       const data = await camera.current.takePictureAsync();
