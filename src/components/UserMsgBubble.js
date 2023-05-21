@@ -1,6 +1,6 @@
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Image } from 'react-native';
 
-export default UserMsgBubble = ({msg}) => {
+const UserTextBubble = ({msg}) => {
     return (
         <View
             key={msg}
@@ -27,3 +27,24 @@ export default UserMsgBubble = ({msg}) => {
         </View>
     )
 };
+
+const UserImgBubble = ({msg}) => {
+    return (
+        <View
+            key={msg}
+            style={{
+                backgroundColor: "#0070F0",
+                paddingVertical: 10,
+                paddingHorizontal: 12,
+                borderTopLeftRadius: 24,
+                borderTopRightRadius: 24,
+                borderBottomLeftRadius: 24,
+                marginLeft: "10%",
+            }}
+        >
+            <Image source={{msg}} style={{width: "100%", height: "100%"}}/>
+        </View>
+    )
+};
+
+export { UserTextBubble, UserImgBubble };

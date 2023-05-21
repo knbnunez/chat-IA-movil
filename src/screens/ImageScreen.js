@@ -8,15 +8,13 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
-import {
-    useIsFocused,
-    useNavigation,
-    // useRoute
-} from "@react-navigation/native";
+import { useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import { ROUTES } from "../../routes";
 import { sendChatImage } from "../services/IAService";
 import { incrementResponsesToBotCount } from "../services/analitycStorageService";
 import StatusProfile from "../components/StatusProfile";
+import { UserImgBubble } from '../components/UserMsgBubble';
+import { IAImgBubble } from '../components/IAMsgBubble';
 
 export default ImageScreen = () => {
     const navigation = useNavigation();
@@ -26,20 +24,17 @@ export default ImageScreen = () => {
     const [msgs, setMsgs] = useState([]);
 
     const sendImage = async (imageUri) => {
-        // TODO: Revisar qué es lo que retorna answer, no estoy del todo seguro
         try {
             const answer = await sendChatImage(imageUri);
-            incrementResponsesToBotCount("image");
-            setMsgs((messagesUpdated) => messagesUpdated.concat({ imageUri: answer, isUser: false }));
+            incrementResponsesToBotCount('image'); // No está incrementando correctamente...
+            setMsgs((msgs) => msgs.concat({ imageUri: answer, isUser: false }));
         } catch (error) {
             console.warn("Error al hacer el envío: ", error);
         }
     };
 
     const addUserMsg = (imageUri) => {
-        setMsgs((msgs) =>
-            msgs.concat({ imageUri: imageUri, isUser: true })
-        );
+        setMsgs((msgs) => msgs.concat({ imageUri: imageUri, isUser: true }));
         sendImage(imageUri);
     };
 
@@ -55,14 +50,6 @@ export default ImageScreen = () => {
         navigation.navigate(ROUTES.CAMERA, { addUserMsg });
     };
 
-    const _handleCameraPress = () => navigation.navigate(ROUTES.CAMERA);
-
-    // Próximo a añadir entre otras cosas, pero quería dejar el comentario:
-    // const navigateToCamera = () => {       // le estamos pasando addMessage como parámetro a la pantalla a la que estamos navegando
-                                              // en realidad es un json { addMessage: addMessage }, pero que como vamos a llamarlo igual, podemos hacer esto { addMessage }
-    //     navigation.navigate(ROUTES.CAMERA, { addMessage }); // Camera recibiría la definición de la función por parámetro
-    //   };
-
     return (
         <View style={styles.container}>
             <StatusProfile title="Canal de Imagen" />
@@ -75,8 +62,8 @@ export default ImageScreen = () => {
                 >
                     {msgs.map((msg, idx) => (
                         msg.isUser
-                            ? <UserMsgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
-                            : <IAMsgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
+                            ? <UserImgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
+                            : <IAImgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
                     ))}
                 </ScrollView>
                 <View style={styles.containerInputContainer}>

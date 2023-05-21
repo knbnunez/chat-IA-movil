@@ -12,8 +12,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useRef } from 'react';
 import StatusProfile from "../components/StatusProfile";
-import UserMsgBubble from '../components/UserMsgBubble';
-import IAMsgBubble from '../components/IAMsgBubble';
+import { UserTextBubble } from '../components/UserMsgBubble';
+import { IATextBubble } from '../components/IAMsgBubble';
 import { sendChatQuestion } from "../services/IAService"
 import { incrementResponsesToBotCount } from "../services/analitycStorageService";
 
@@ -54,8 +54,8 @@ const ChatScreen = () => {
                 >
                     {msgs.map((msg, idx) => (
                         msg.isUser
-                            ? <UserMsgBubble msg={msg.message} idx={`msg-${idx}`} />
-                            : <IAMsgBubble msg={msg.message} idx={`msg-${idx}`} />
+                            ? <UserTextBubble msg={msg.message} idx={`msg-${idx}`} />
+                            : <IATextBubble msg={msg.message} idx={`msg-${idx}`} />
                     ))}
                 </ScrollView>
 

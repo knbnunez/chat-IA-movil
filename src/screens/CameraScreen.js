@@ -13,17 +13,15 @@ export default CameraScreen = () => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
-  if (!permission) {
-    // Camera permissions are still loading
+  if (!permission) { // Camera permissions are still loading
     return null;
   }
 
-  if (!permission.granted) {
-    // Camera permissions are not granted yet
+  if (!permission.granted) { // Camera permissions are not granted yet
     return (
       <View style={styles.container}>
         <Text style={{ textAlign: "center" }}>
-          Necesitamos el acceso a la cámara
+          Necesitamos acceso a la cámara
         </Text>
         <Button onPress={requestPermission} title="Permitir" />
       </View>
@@ -36,24 +34,6 @@ export default CameraScreen = () => {
     setType(newType);
   }
 
-  // Todavía no está implementado, hay que exportar con lo demás que haga falta del repo:
-  // const takePicture = async () => {
-  //   if (camera.current) {
-  //     const data = await camera.current.takePictureAsync();
-  //     const resized = await manipulateAsync(data.uri, [
-  //       { resize: { height: 100 } },
-  //     ]);
-  //     setImage(resized.uri);
-  // Acá está lo importante:
-  //     params?.addMessage(resized.uri); // hacemos uso de la función que nos pasó ImageScreen como param para añadir la imágen 
-  //     navigation.goBack(); // Y retornamos a la pantalla anterior, o sea a ImageScreen
-  //   } else {
-  //     console.warn("Cámara no lista");
-  //   }
-  // };
-
-
-  // TAKEPICTURE antiguo
   const takePicture = async () => {
     if (camera.current) {
       const data = await camera.current.takePictureAsync();
@@ -61,7 +41,8 @@ export default CameraScreen = () => {
         { resize: { height: 100 } },
       ]);
       setImage(resized.uri);
-      params?.addMessage(resized.uri);
+      // console.log(resized); Está bien que se esté enviando resized.uri
+      params?.addUserMsg(resized.uri);
       navigation.goBack();
     } else {
       console.warn("Cámara no lista");
