@@ -7,57 +7,59 @@ import {
     TextInput,
     View,
     Dimensions,
+    Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from 'react';
-
+import React, { useState, useRef } from 'react';
 import StatusProfile from "../components/StatusProfile";
 import UserMsgBubble from '../components/UserMsgBubble';
 import IAMsgBubble from '../components/IAMsgBubble';
-import sendChatQuestion from "../services/IAService"
-import { getTextResponsesCount, incrementTextResponsesCount } from "../services/analitycStorageService";
+import { sendChatQuestion } from "../services/IAService"
+import { incrementResponsesToBotCount } from "../services/analitycStorageService";
 
 const ChatScreen = () => {
     const [text, setText] = useState(""); // IMPORTANTE: setState = Admite un valor o una función
     const [msgs, setMsgs] = useState([]);
-  
-    const fetchApi = async (message) => {
+    const scrollViewRef = useRef(null);
+
+    const sendText = async (message) => {
         try {
             const answer = await sendChatQuestion(message);
-            incrementTextResponsesCount();
+            incrementResponsesToBotCount("text");
             setMsgs((messagesUpdated) => messagesUpdated.concat({ message: answer.mensaje, isUser: false }));
         } catch (error) {
-            console.warn("Error al hacer el Fetch: ", error);
+            console.warn("Error al hacer el envío: ", error);
         }
     };
 
     const _addUserMsg = () => {
+        Keyboard.dismiss();
         if (text !== '') {
-            setMsgs(msgs.concat({ message: text, isUser: true})); // Estoy "definiendo" (implícitamente) que msgs es un arreglo de objetos de la manera {text, isUser}, con TypeScript creo que podría haberse definido una interfaz y luego hacer referencia a que msgs es un arreglo de objetos con esa interfaz.
-                                                                  // "text" es la variable que está instanciada arriba (proveniente de useState), isUser lo estoy inventando yo en el momento.
-            fetchApi(text);
-            setText(""); // Y se resetea el text de input
+            setMsgs(msgs.concat({ message: text, isUser: true }));
+            sendText(text);
+            setText(""); // Se resetea el text de input
         }
     }
 
     return (
-        <View style={styles.container}>  
+        <View style={styles.container}>
             {/* Barra de estado */}
-            <StatusProfile style={{  }}></StatusProfile>
-
+            <StatusProfile title="Canal de Texto" />
             <KeyboardAvoidingView style={{ flex: 1 }} >
-                <ScrollView 
-                    style={{ height: Dimensions.get("screen").height * 0.7, width: Dimensions.get("screen").width, paddingHorizontal: "7%" }}
+                <ScrollView
+                    style={styles.scrollView}
                     contentContainerStyle={{ gap: 20 }}
+                    ref={scrollViewRef}
+                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
                 >
                     {msgs.map((msg, idx) => (
-                        msg.isUser? 
-                            (<UserMsgBubble msg={msg.message} idx={`msg-${idx}`} />) // Return this.
-                            : (<IAMsgBubble msg={msg.message} idx={`msg-${idx}`} />) // Else, return this.
-                     ))}
+                        msg.isUser
+                            ? <UserMsgBubble msg={msg.message} idx={`msg-${idx}`} />
+                            : <IAMsgBubble msg={msg.message} idx={`msg-${idx}`} />
+                    ))}
                 </ScrollView>
 
-                <View style={{ flexDirection: "row", justifyContent: "center", gap: 10, paddingTop: "2%", paddingBottom: "4%",}}>
+                <View style={styles.containerInputContainer}>
                     <View
                         style={{
                             width: 265,
@@ -98,5 +100,18 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingTop: 40,
+    },
+    scrollView: { 
+        height: Dimensions.get("screen").height * 0.7, 
+        width: Dimensions.get("screen").width, 
+        paddingHorizontal: "7%" 
+    },
+    containerInputContainer: { 
+        flexDirection: "row", 
+        justifyContent: "center", 
+        gap: 10, 
+        paddingTop: "2%", 
+        paddingBottom: "4%",
+        borderRadius: 20,
     },
 });

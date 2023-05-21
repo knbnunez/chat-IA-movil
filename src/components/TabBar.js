@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons, Entypo, MaterialCommunityIcons, FontAwesome} from '@expo/vector-icons';
+import { Ionicons, Entypo, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 
 import { ROUTES } from '../../routes';
 import HomeScreen from '../screens/HomeScreen';
@@ -12,18 +12,26 @@ import VoiceScreen from '../screens/VoiceScreen';
 import CameraScreen from '../screens/CameraScreen';
 
 const Tab = createBottomTabNavigator();
+const ImageStack = createStackNavigator();
 
-// Componente
+const ImageNavigator = () => (
+    <ImageStack.Navigator screenOptions={{ headerShown: false }}>
+        <ImageStack.Screen name={ROUTES.IMAGE_CHANNEL} component={ImageScreen} />
+        <ImageStack.Screen name={ROUTES.CAMERA} component={CameraScreen} />
+    </ImageStack.Navigator>
+);
+
+// Componente Custom
 const CustomIcon = ({ focused, iconName, label }) => (
     <View
         style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 5,
-        backgroundColor: focused ? "black" : "transparent",
-        padding: 10,
-        borderRadius: 30,
-        height: 40,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 5,
+            backgroundColor: focused ? "black" : "transparent",
+            padding: 10,
+            borderRadius: 30,
+            height: 40,
         }}
     >
         <Ionicons name={iconName} size={21.5} color={focused ? "white" : "#72777A"} />
@@ -35,7 +43,7 @@ const tabScreenData = [
     {
         name: ROUTES.HOME,
         component: HomeScreen,
-        options: { 
+        options: {
             headerShown: false,
             tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="home" label="INICIO" />,
         }
@@ -43,15 +51,23 @@ const tabScreenData = [
     {
         name: ROUTES.CHAT,
         component: ChatScreen,
-        options: { 
+        options: {
             headerShown: false,
             tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="chatbubbles-sharp" label="TEXTO" />
         }
     },
+    // {
+    //     name: ROUTES.IMAGE,
+    //     component: ImageScreen,
+    //     options: {
+    //         headerShown: false,
+    //         tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="image" label="IMAGEN" />
+    //     }
+    // },
     {
         name: ROUTES.IMAGE,
-        component: ImageScreen,
-        options: { 
+        component: ImageNavigator,
+        options: {
             headerShown: false,
             tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="image" label="IMAGEN" />
         }
@@ -59,7 +75,7 @@ const tabScreenData = [
     {
         name: ROUTES.VOICE,
         component: VoiceScreen,
-        options: { 
+        options: {
             headerShown: false,
             tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="mic" label="VOZ" />
         }
@@ -69,37 +85,11 @@ const tabScreenData = [
 const TabBar = () => {
     return (
         <NavigationContainer>
-            <Tab.Navigator 
+            <Tab.Navigator
                 initialRouteName={ROUTES.HOME}
-                screenOptions={{
-                    // Para el texto
-                    // tabBarActiveTintColor: 'purple',
-                    // tabBarInactiveTintColor: 'gray',
-                    // tabBarLabel: null, // No me funcionó
-                    tabBarShowLabel: false, // Este sí
-                    tabBarStyle: { // Dejó de ser flotante el TabBar
-                        paddingHorizontal: "2%",
-                        height: "8%",
-                        // marginHorizontal: 25, 
-                        // borderRadius: 22, 
-                        // backgroundColor: 'red',
-                        // height: '9%',
-                        // shadowColor: "#FFF", //DarkMode
-                        // // shadowColor: "#000",
-                        // shadowOffset: { width: 2.5, height: 1.5 },
-                        // shadowOpacity: 0.2,
-                        // shadowRadius: 2.5,
-                        // elevation: 5
-                    },
-                }}
+                screenOptions={{ tabBarShowLabel: false, tabBarStyle: { paddingHorizontal: "2%", height: "8%" } }}
             >
-                {tabScreenData.map((data) => <Tab.Screen {...data}/>)}
-                {/* Hidden */}
-                <Tab.Screen 
-                    name={ROUTES.CAMERA} 
-                    component={CameraScreen}
-                    options={{ tabBarButton: () => null, tabBarVisible: false }}
-                />
+                { tabScreenData.map((data) => <Tab.Screen {...data} />) }
             </Tab.Navigator>
         </NavigationContainer>
     );

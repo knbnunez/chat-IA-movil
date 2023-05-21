@@ -1,57 +1,58 @@
-import { Text, View, Dimensions, Button, Image, Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
-import * as ImagePicker from 'expo-image-picker';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-
-import { ROUTES } from './../../routes';
+import {
+    Dimensions,
+    Image,
+    KeyboardAvoidingView,
+    ScrollView,
+    StyleSheet,
+    View,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useRef, useState } from "react";
+import {
+    useIsFocused,
+    useNavigation,
+    // useRoute
+} from "@react-navigation/native";
+import { ROUTES } from "../../routes";
+import { sendChatImage } from "../services/IAService";
+import { incrementResponsesToBotCount } from "../services/analitycStorageService";
 import StatusProfile from "../components/StatusProfile";
-import { sendChatImage } from '../services/IAService'
 
-const Stack = createNativeStackNavigator();
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
-const ImageScreen = () => {
+export default ImageScreen = () => {
     const navigation = useNavigation();
-    const [image, setImage] = useState(null);
-    const params = useRoute().params;
+    const scrollViewRef = useRef(null);
+    // const params = useRoute().params;
     const isFocused = useIsFocused();
+    const [msgs, setMsgs] = useState([]);
 
-    // Func nueva
     const sendImage = async (imageUri) => {
-        const responseImg = await sendImageToChatbot(imageUri);
-        setChatMessages((chatMessages) =>
-            chatMessages.concat({ imageUri: responseImg, isUser: false })
+        // TODO: Revisar qué es lo que retorna answer, no estoy del todo seguro
+        try {
+            const answer = await sendChatImage(imageUri);
+            incrementResponsesToBotCount("image");
+            setMsgs((messagesUpdated) => messagesUpdated.concat({ imageUri: answer, isUser: false }));
+        } catch (error) {
+            console.warn("Error al hacer el envío: ", error);
+        }
+    };
+
+    const _addUserMsg = (imageUri) => {
+        setMsgs((msgs) =>
+            msgs.concat({ imageUri: imageUri, isUser: true })
         );
+        sendImage(imageUri);
     };
 
     useEffect(() => {
-        if (isFocused && params?.imageUri) {
-            setChatMessages((chatMessages) =>
-                chatMessages.concat({ imageUri: params.imageUri, isUser: true })
-            );
-            sendImage(params.imageUri);
-            navigation.setParams({ imageUri: undefined });
+        if (isFocused) {
+            setTimeout(() => {
+                scrollViewRef.current?.scrollToEnd({ animated: true });
+            }, 1000);
         }
-    }, [isFocused, params]);
+    }, [isFocused]);
 
-
-    const _handleImagePress = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
+    const navigateToCamera = () => {
+        navigation.navigate(ROUTES.CAMERA, { _addUserMsg });
     };
 
     const _handleCameraPress = () => navigation.navigate(ROUTES.CAMERA);
@@ -64,24 +65,37 @@ const ImageScreen = () => {
 
     return (
         <View style={styles.container}>
-            {/* <View style={{ backgroundColor: 'red', height: '15%', justifyContent: 'center' }}>
-                <Text style={{ color: 'white', alignSelf: 'center' }}>Canal de Texto</Text>
-            </View> */}
-            <StatusProfile style={{}}></StatusProfile>
-            <View>
-                <Button title="Selecciona una imagen de tu galería" onPress={_handleImagePress} />
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                <Button title="Cámara" onPress={_handleCameraPress} />
-                <View style={styles.backgroundButtons}>
-                    <FontAwesome name="camera" size={21} color="white" />
-                    <Ionicons name="image" size={24} color="white" />
+            <StatusProfile title="Canal de Imagen" />
+            <KeyboardAvoidingView style={{ flex: 1 }} >
+                <ScrollView
+                    style={styles.scrollView}
+                    contentContainerStyle={{ gap: 20 }}
+                    ref={scrollViewRef}
+                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+                >
+                    {msgs.map((msg, idx) => (
+                        msg.isUser
+                            ? <UserMsgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
+                            : <IAMsgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
+                    ))}
+                </ScrollView>
+                <View style={styles.containerInputContainer}>
+                    <View style={styles.inputContainer}>
+                        <Ionicons
+                            name="camera"
+                            size={24}
+                            color="white"
+                            onPress={navigateToCamera}
+                        />
+                        <Ionicons name="image" size={24} color="white" 
+                            // TODO: agregar la funcionalidad
+                        />
+                    </View>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         </View>
     );
 };
-
-export default ImageScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -91,13 +105,26 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingTop: 40,
     },
-    backgroundButtons: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 110,
-        height: 44,
-        backgroundColor: "#303437",
-        borderRadius: 48,
+    scrollView: { 
+        height: Dimensions.get("screen").height * 0.7, 
+        width: Dimensions.get("screen").width, 
+        paddingHorizontal: "7%" 
     },
+    containerInputContainer: { 
+        flexDirection: "row", 
+        justifyContent: "center", 
+        gap: 10, 
+        paddingTop: "2%", 
+        paddingBottom: "4%"
+    },
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "black",
+        width: 100,
+        padding: 10,
+        borderRadius: 19,
+    },
+    
 });
