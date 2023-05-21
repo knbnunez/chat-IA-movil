@@ -21,6 +21,23 @@ const CameraScreen = () => {
     );
   }
 
+  // Todavía no está implementado, hay que exportar con lo demás que haga falta del repo:
+  // const takePicture = async () => {
+  //   if (camera.current) {
+  //     const data = await camera.current.takePictureAsync();
+  //     const resized = await manipulateAsync(data.uri, [
+  //       { resize: { height: 100 } },
+  //     ]);
+  //     setImage(resized.uri);
+  // Acá está lo importante:
+  //     params?.addMessage(resized.uri); // hacemos uso de la función que nos pasó ImageScreen como param para añadir la imágen 
+  //     navigation.goBack(); // Y retornamos a la pantalla anterior, o sea a ImageScreen
+  //   } else {
+  //     console.warn("Cámara no lista");
+  //   }
+  // };
+
+
   function toggleCameraType() {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
   }

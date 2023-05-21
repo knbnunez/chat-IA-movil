@@ -29,6 +29,7 @@ const ImageScreen = () => {
             chatMessages.concat({ imageUri: responseImg, isUser: false })
         );
     };
+
     useEffect(() => {
         if (isFocused && params?.imageUri) {
             setChatMessages((chatMessages) =>
@@ -54,6 +55,12 @@ const ImageScreen = () => {
     };
 
     const _handleCameraPress = () => navigation.navigate(ROUTES.CAMERA);
+
+    // Próximo a añadir entre otras cosas, pero quería dejar el comentario:
+    // const navigateToCamera = () => {       // le estamos pasando addMessage como parámetro a la pantalla a la que estamos navegando
+                                              // en realidad es un json { addMessage: addMessage }, pero que como vamos a llamarlo igual, podemos hacer esto { addMessage }
+    //     navigation.navigate(ROUTES.CAMERA, { addMessage }); // Camera recibiría la definición de la función por parámetro
+    //   };
 
     return (
         <View style={styles.container}>
