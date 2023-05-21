@@ -21,7 +21,7 @@ import StatusProfile from "../components/StatusProfile";
 export default ImageScreen = () => {
     const navigation = useNavigation();
     const scrollViewRef = useRef(null);
-    // const params = useRoute().params;
+    const params = useRoute().params;
     const isFocused = useIsFocused();
     const [msgs, setMsgs] = useState([]);
 
@@ -36,7 +36,7 @@ export default ImageScreen = () => {
         }
     };
 
-    const _addUserMsg = (imageUri) => {
+    const addUserMsg = (imageUri) => {
         setMsgs((msgs) =>
             msgs.concat({ imageUri: imageUri, isUser: true })
         );
@@ -52,7 +52,7 @@ export default ImageScreen = () => {
     }, [isFocused]);
 
     const navigateToCamera = () => {
-        navigation.navigate(ROUTES.CAMERA, { _addUserMsg });
+        navigation.navigate(ROUTES.CAMERA, { addUserMsg });
     };
 
     return (
