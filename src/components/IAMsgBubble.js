@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Dimensions, Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
 const IATextBubble = ({msg}) => {
     return (
@@ -29,20 +29,21 @@ const IATextBubble = ({msg}) => {
 };
 
 const IAImgBubble = ({msg}) => {
+    // console.log("IA: ", msg);
     return (
         <View
             key={msg}
             style={{
-                backgroundColor: "#0070F0",
+                backgroundColor: "gray",
                 paddingVertical: 10,
                 paddingHorizontal: 12,
-                borderTopLeftRadius: 24,
                 borderTopRightRadius: 24,
                 borderBottomLeftRadius: 24,
-                marginLeft: "10%",
+                borderBottomRightRadius: 24,
+                marginRight: "27.5%",
             }}
         >
-            <Image source={{msg}} style={{width: "100%", height: "100%"}}/>
+            <Image source={{uri: msg}} style={{ width: 200, height: 230, borderRadius: 12}}/>
         </View>
     )
 };

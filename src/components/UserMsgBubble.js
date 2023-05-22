@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Dimensions, Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
 const UserTextBubble = ({msg}) => {
     return (
@@ -29,6 +29,7 @@ const UserTextBubble = ({msg}) => {
 };
 
 const UserImgBubble = ({msg}) => {
+    // console.log("User: ", msg);
     return (
         <View
             key={msg}
@@ -39,10 +40,11 @@ const UserImgBubble = ({msg}) => {
                 borderTopLeftRadius: 24,
                 borderTopRightRadius: 24,
                 borderBottomLeftRadius: 24,
-                marginLeft: "10%",
+                marginLeft: "27.5%",
             }}
         >
-            <Image source={{msg}} style={{width: "100%", height: "100%"}}/>
+            {/* TODO: darle style */}
+            <Image source={{uri: msg}} style={{width: 200, height: 230, borderRadius: 12}}/>
         </View>
     )
 };

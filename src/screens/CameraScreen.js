@@ -3,6 +3,11 @@ import { Camera, CameraType } from "expo-camera";
 import { useRef, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { manipulateAsync } from "expo-image-manipulator";
+
+// Icons
+import { Feather } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+
 import { ROUTES } from "../../routes";
 
 export default CameraScreen = () => {
@@ -51,14 +56,18 @@ export default CameraScreen = () => {
 
   return (
     <View style={{ gap: 5 }}>
-      <Camera ref={camera} style={styles.box} type={type} ratio="1:1" />
-      <Button title="Cambiar cámara" onPress={toggleCameraType} />
-      <Button title="Tomar Foto" onPress={takePicture} />
-      {image !== null ? (
+      <Camera ref={camera} style={styles.box} type={type} ratio="16:9">
+        <View style={styles.takePictureContainer}>
+          <Feather name="camera" size={24} color="white" onPress={takePicture} />
+        </View>
+        <Ionicons name="camera-reverse" style={styles.toggleCamera} size={28} color="white" onPress={toggleCameraType} />
+        <Ionicons name="arrow-back-circle" style={styles.backButton} size={32} color="white" onPress={() => navigation.goBack()} />
+      </Camera>
+      {/* {image !== null ? (
         <Image source={{ uri: image }} style={styles.box} />
       ) : (
         <View style={[styles.box, { backgroundColor: "grey" }]} />
-      )}
+      )} */}
     </View>
   );
 };
@@ -81,7 +90,27 @@ const styles = StyleSheet.create({
     color: "white",
   },
   box: {
-    width: 200,
-    height: 200,
+    width: "100%",
+    height: "100%",
+  },
+  takePictureContainer: {
+    width: "21%",
+    height: "11%",
+    bottom: "-85%",
+    left: "39%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
+    borderRadius: 100,
+    borderWidth: 6,
+    borderColor: "grey"
+  },
+  toggleCamera: {
+    bottom: "-77.5%",
+    left: "15%",
+  },
+  backButton: {
+    bottom: "8%",
+    left: "5%",
   },
 });
