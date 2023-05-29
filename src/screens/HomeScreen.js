@@ -69,11 +69,10 @@ const HomeScreen = () => {
 
   const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
 
-  // TODO: FALTA HACER UN RECUENTO DE LAS IMÁGENES ENVIADAS
   const getNewCountValue = async () => {
-    const count = await getResponsesToBotCount("text");
-    // console.log(count);
-    setTextData([count, 0, 0]);
+    const textCount = await getResponsesToBotCount("text");
+    const imageCount = await getResponsesToBotCount("image");
+    setTextData([textCount, imageCount, 0]);
   }
 
   useEffect(() => {

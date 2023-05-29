@@ -7,7 +7,6 @@ const getResponsesToBotCount = async (messageType) => {
     return count === null ? 0 : parseInt(count);
 };
 
-// No está contabilizando los image-responses-count
 const incrementResponsesToBotCount = async (messageType) => {
     const currentCount = await getResponsesToBotCount(messageType);
     const newValue = (currentCount + 1).toString();

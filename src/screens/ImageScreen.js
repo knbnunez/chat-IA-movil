@@ -15,6 +15,7 @@ import { incrementResponsesToBotCount } from "../services/analitycStorageService
 import StatusProfile from "../components/StatusProfile";
 import { UserImgBubble } from '../components/UserMsgBubble';
 import { IAImgBubble } from '../components/IAMsgBubble';
+import * as ImagePicker from 'expo-image-picker';
 
 export default ImageScreen = () => {
     const navigation = useNavigation();
@@ -26,7 +27,7 @@ export default ImageScreen = () => {
     const sendImage = async (imageUri) => {
         try {
             const answer = await sendChatImage(imageUri);
-            incrementResponsesToBotCount('image'); // No está incrementando correctamente...
+            incrementResponsesToBotCount('image'); 
             setMsgs((msgs) => msgs.concat({ imageUri: answer, isUser: false }));
         } catch (error) {
             console.warn("Error al hacer el envío: ", error);
@@ -48,6 +49,20 @@ export default ImageScreen = () => {
 
     const navigateToCamera = () => {
         navigation.navigate(ROUTES.CAMERA, { addUserMsg });
+    };
+
+    const pickImageAsync = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            // allowsEditing: true,
+            quality: 1,
+            aspect: [100, 100],
+            // MediaTypeOptions.Images ＝ "Images", // Por defecto ya viene para sólo imágenes
+            quality: 0,
+        });
+        
+        result.canceled === false
+            ? addUserMsg(result.uri) 
+            : alert('No se seleccionó ninguna imagen.');
     };
 
     return (
@@ -74,8 +89,11 @@ export default ImageScreen = () => {
                             color="white"
                             onPress={navigateToCamera}
                         />
-                        <Ionicons name="image" size={24} color="white" 
-                            // TODO: agregar la funcionalidad
+                        <Ionicons 
+                            name="image" 
+                            size={24} 
+                            color="white" 
+                            onPress={pickImageAsync}
                         />
                     </View>
                 </View>
@@ -102,7 +120,11 @@ const styles = StyleSheet.create({
         justifyContent: "center", 
         gap: 10, 
         paddingTop: "2%", 
-        paddingBottom: "4%"
+        paddingBottom: "4%",
+        
+        // background: "transparent"
+        // opacity: 0.5
+        // backgroundColor: "red",
     },
     inputContainer: {
         flexDirection: "row",
@@ -113,5 +135,4 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 19,
     },
-    
 });
