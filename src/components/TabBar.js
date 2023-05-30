@@ -21,7 +21,7 @@ const ImageNavigator = () => (
     </ImageStack.Navigator>
 );
 
-// Componente Custom
+// Custom Component
 const CustomIcon = ({ focused, iconName, label }) => (
     <View
         style={{
@@ -56,14 +56,6 @@ const tabScreenData = [
             tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="chatbubbles-sharp" label="TEXTO" />
         }
     },
-    // {
-    //     name: ROUTES.IMAGE,
-    //     component: ImageScreen,
-    //     options: {
-    //         headerShown: false,
-    //         tabBarIcon: ({ focused }) => <CustomIcon focused={focused} iconName="image" label="IMAGEN" />
-    //     }
-    // },
     {
         name: ROUTES.IMAGE,
         component: ImageNavigator,
@@ -87,7 +79,10 @@ const TabBar = () => {
         <NavigationContainer>
             <Tab.Navigator
                 initialRouteName={ROUTES.HOME}
-                screenOptions={{ tabBarShowLabel: false, tabBarStyle: { paddingHorizontal: "2%", height: "8%" } }}
+                screenOptions={{ 
+                    tabBarShowLabel: false, 
+                    tabBarStyle: { paddingHorizontal: "2%", height: "8%" },
+                }}
             >
                 { tabScreenData.map((data) => <Tab.Screen {...data} />) }
             </Tab.Navigator>

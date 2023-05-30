@@ -1,6 +1,9 @@
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, Dimensions, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import { View, Dimensions, StyleSheet, ScrollView, TouchableOpacity, Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { useIsFocused } from "@react-navigation/native";
+import { FontAwesome } from '@expo/vector-icons';
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -8,102 +11,97 @@ const windowHeight = Dimensions.get('window').height;
 const squareContainerWidth = windowWidth/1.5;
 const squareContainerHeight = windowHeight/3;
 
-const VoiceScreen = () => {
-    
-    const [colorChildrenSquare1, setCHS1] = useState('white');
-    const [colorChildrenSquare2, setCHS2] = useState('white');
-    const [colorChildrenSquare3, setCHS3] = useState('white');
-    const [colorChildrenSquare4, setCHS4] = useState('white');
-    const [selectNumber, setSN] = useState(0);
+export default VoiceScreen = () => {
+    const scrollViewRef = useRef(null);
+    const isFocused = useIsFocused();
+    const [isVisible, setIsVisible] = useState(false);
 
-    const _handlePress = () => {
-        randomNumber = Math.floor((Math.random() * 4) + 1);
-        if (randomNumber != selectNumber) {
-            if (randomNumber == 1) {
-                setCHS1('red');
-                setCHS2('white');
-                setCHS3('white');
-                setCHS4('white');
-            } else if (randomNumber == 2) {
-                setCHS1('white');
-                setCHS2('green');
-                setCHS3('white');
-                setCHS4('white');
-            } else if (randomNumber == 3) {
-                setCHS1('white');
-                setCHS2('white');
-                setCHS3('blue');
-                setCHS4('white');
-            } else if (randomNumber == 4) {
-                setCHS1('white');
-                setCHS2('white');
-                setCHS3('white');
-                setCHS4('yellow');
-            }
-        } else {
-            _handlePress();
+    useEffect(() => {
+        if (isFocused) {
+            setTimeout(() => {
+                scrollViewRef.current?.scrollToEnd({ animated: true });
+            }, 1000);
         }
+    }, [isFocused]);
+
+    const handlePress = () => {
+      setIsVisible(!isVisible); 
     };
 
     return (
-        <SafeAreaView style={{
-            height: windowHeight,
-            width: windowWidth,
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
-           
-                <View style={{
-                    //  darle border
-                    backgroundColor: 'black',
-                    width: squareContainerWidth,
-                    height: squareContainerHeight,
-                    flexDirection: 'row',
-                    flexWrap: 'wrap'
-                }}>
-                    <Pressable onPressIn={() => {setSN(1); _handlePress()}}>
-                    <View style={{
-                        backgroundColor: colorChildrenSquare1,
-                        width: squareContainerWidth/2,
-                        height: squareContainerHeight/2,
-                    }}>
+        <View style={styles.container}>
+            <StatusProfile title="Canal de Voz" />
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={{ gap: 20 }}
+                ref={scrollViewRef}
+                onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+            >
+                {/* Mensajes de Voz y respuestas de la IA */}
 
-                    </View>
-                    </Pressable>
-
-                    <Pressable onPressIn={() => {setSN(2); _handlePress()}}>
-                    <View style={{
-                        backgroundColor: colorChildrenSquare2,
-                        width: squareContainerWidth/2,
-                        height: squareContainerHeight/2,
-                    }}>
-                        
-                    </View>
-                    </Pressable>
-
-                    <Pressable onPressIn={() => {setSN(3); _handlePress()}}>
-                    <View style={{
-                        backgroundColor: colorChildrenSquare3,
-                        width: squareContainerWidth/2,
-                        height: squareContainerHeight/2,
-                    }}>
-
-                    </View>
-                    </Pressable>
-
-                    <Pressable onPressIn={() => {setSN(4); _handlePress()}}>
-                    <View style={{
-                        backgroundColor: colorChildrenSquare4,
-                        width: squareContainerWidth/2,
-                        height: squareContainerHeight/2,
-                    }}>
-
-                    </View>
-                    </Pressable>
-                </View>         
-
-        </SafeAreaView>
-  );
+                {isVisible && 
+                    <LinearGradient
+                        colors={["#F15F79", "#ee9ca7"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                        style={styles.warningContainer}
+                    >
+                        <Text style={styles.warningText}>Lo sentimos, esta funcionalidad todavía no ha sido implementada... ¡Pero próximamente habrá novedades!</Text>   
+                    </LinearGradient>
+                }
+            </ScrollView>
+            
+            
+            
+            
+            <TouchableOpacity style={styles.inputContainer} onPress={handlePress}>
+                <FontAwesome name="microphone" size={24} color="white"/>
+            </TouchableOpacity>
+        </View>
+    );
 };
 
-export default VoiceScreen;
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#fff",
+        flex: 1,
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingTop: 40,
+    },
+    scrollView: { 
+        height: Dimensions.get("screen").height * 0.7, 
+        width: Dimensions.get("screen").width, 
+        paddingHorizontal: "7%",
+    },
+    warningContainer: {
+        backgroundColor: "#f997ff",
+        width: 300,
+        padding: 10,
+        marginHorizontal: 24,
+        marginVertical: 20,
+        borderTopRightRadius: 24,
+        borderTopLeftRadius: 24,
+        borderBottomRightRadius: 24,    
+    },
+    warningText: {
+        color: "white",
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: 'center',
+        backgroundColor: "black",
+        width: 55,
+        padding: 15,
+        marginBottom: 15,
+        borderRadius: 50,
+        borderWidth: 0.33,
+        borderColor: "#696969",
+        position: "absolute",
+        bottom: "1.5%",
+        left: "44%",
+    },
+});

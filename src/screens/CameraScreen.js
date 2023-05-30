@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Camera, CameraType } from "expo-camera";
 import { useRef, useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { manipulateAsync } from "expo-image-manipulator";
 
 // Icons
@@ -46,7 +46,6 @@ export default CameraScreen = () => {
         { resize: { height: 100 } },
       ]);
       setImage(resized.uri);
-      // console.log(resized); Está bien que se esté enviando resized.uri
       params?.addUserMsg(resized.uri);
       navigation.goBack();
     } else {
@@ -57,17 +56,12 @@ export default CameraScreen = () => {
   return (
     <View style={{ gap: 5 }}>
       <Camera ref={camera} style={styles.box} type={type} ratio="16:9">
-        <View style={styles.takePictureContainer}>
-          <Feather name="camera" size={24} color="white" onPress={takePicture} />
-        </View>
+        <TouchableOpacity style={styles.takePictureContainer} onPressIn={takePicture}>
+          <Feather name="camera" size={24} color="white" />
+        </TouchableOpacity>
         <Ionicons name="camera-reverse" style={styles.toggleCamera} size={28} color="white" onPress={toggleCameraType} />
         <Ionicons name="arrow-back-circle" style={styles.backButton} size={32} color="white" onPress={() => navigation.goBack()} />
       </Camera>
-      {/* {image !== null ? (
-        <Image source={{ uri: image }} style={styles.box} />
-      ) : (
-        <View style={[styles.box, { backgroundColor: "grey" }]} />
-      )} */}
     </View>
   );
 };

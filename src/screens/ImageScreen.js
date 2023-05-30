@@ -53,13 +53,9 @@ export default ImageScreen = () => {
 
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            // allowsEditing: true,
-            quality: 1,
             aspect: [100, 100],
-            // MediaTypeOptions.Images ＝ "Images", // Por defecto ya viene para sólo imágenes
             quality: 0,
         });
-        
         result.canceled === false
             ? addUserMsg(result.uri) 
             : alert('No se seleccionó ninguna imagen.');
@@ -68,36 +64,32 @@ export default ImageScreen = () => {
     return (
         <View style={styles.container}>
             <StatusProfile title="Canal de Imagen" />
-            <KeyboardAvoidingView style={{ flex: 1 }} >
-                <ScrollView
-                    style={styles.scrollView}
-                    contentContainerStyle={{ gap: 20 }}
-                    ref={scrollViewRef}
-                    onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-                >
-                    {msgs.map((msg, idx) => (
-                        msg.isUser
-                            ? <UserImgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
-                            : <IAImgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
-                    ))}
-                </ScrollView>
-                <View style={styles.containerInputContainer}>
-                    <View style={styles.inputContainer}>
-                        <Ionicons
-                            name="camera"
-                            size={24}
-                            color="white"
-                            onPress={navigateToCamera}
-                        />
-                        <Ionicons 
-                            name="image" 
-                            size={24} 
-                            color="white" 
-                            onPress={pickImageAsync}
-                        />
-                    </View>
-                </View>
-            </KeyboardAvoidingView>
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={{ gap: 20 }}
+                ref={scrollViewRef}
+                onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+            >
+                {msgs.map((msg, idx) => (
+                    msg.isUser
+                        ? <UserImgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
+                        : <IAImgBubble msg={msg.imageUri} idx={`msg-${idx}`} />
+                ))}
+            </ScrollView>
+            <View style={styles.inputContainer}>
+                <Ionicons
+                    name="camera"
+                    size={24}
+                    color="white"
+                    onPress={navigateToCamera}
+                />
+                <Ionicons 
+                    name="image" 
+                    size={24} 
+                    color="white" 
+                    onPress={pickImageAsync}
+                />
+            </View>
         </View>
     );
 };
@@ -113,18 +105,7 @@ const styles = StyleSheet.create({
     scrollView: { 
         height: Dimensions.get("screen").height * 0.7, 
         width: Dimensions.get("screen").width, 
-        paddingHorizontal: "7%" 
-    },
-    containerInputContainer: { 
-        flexDirection: "row", 
-        justifyContent: "center", 
-        gap: 10, 
-        paddingTop: "2%", 
-        paddingBottom: "4%",
-        
-        // background: "transparent"
-        // opacity: 0.5
-        // backgroundColor: "red",
+        paddingHorizontal: "7%",
     },
     inputContainer: {
         flexDirection: "row",
@@ -133,6 +114,12 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
         width: 100,
         padding: 10,
+        marginBottom: 15,
         borderRadius: 19,
+        borderWidth: 0.33,
+        borderColor: "#696969",
+        position: "absolute",
+        bottom: "1.5%",
+        left: "39%",
     },
 });
