@@ -37,7 +37,7 @@ export default VoiceScreen = () => {
                 ref={scrollViewRef}
                 onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
             >
-                {/* Mensajes de Voz y respuestas de la IA */}
+                {/* Mensajes de Voz y respuestas de la IA... */}
 
                 {isVisible && 
                     <LinearGradient
