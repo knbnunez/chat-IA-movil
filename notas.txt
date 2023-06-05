@@ -1,7 +1,7 @@
 # Usar: npx expo install ___   donde "___" es el nombre de la librería.
   en lugar de npm install.
 
-# Estructura de carpetas:
+# Estructura de carpetas ideal:
 App.js
 src
   Navigation

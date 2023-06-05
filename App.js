@@ -13,7 +13,7 @@ const App = () => {
     return null;
   }
   return (
-      <TabBar></TabBar>
+      <TabBar/>
   );
 };
 

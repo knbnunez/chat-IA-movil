@@ -7,21 +7,14 @@ const windowHeight = Dimensions.get('window').height;
 const StatBox = (props) => {
   const { 
     style: customStyle, 
-    children,
-    // source,
-    // sourceStyle, 
     text,
     subText,
-    iconName,
-
+    iconName
   } = props
-  // console.log({source});
-  // console.log({sourceStyle});
 
   return (
     <View style={[styles.statBox, customStyle]}>
       <View style={styles.iconContainer}>
-        {/* {children} */}
         <Ionicons name={iconName} size={20} color="#0070F0" />
       </View>
       <View>
@@ -48,10 +41,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     // shadowColor: "#FFF", // Darkmode??
     shadowOffset: {
-      width: 5,
-      height: 5,
+      width: 3,
+      height: 3,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 2,
   },

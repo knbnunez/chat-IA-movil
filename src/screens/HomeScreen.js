@@ -70,9 +70,10 @@ const HomeScreen = () => {
   const navigateTo = (route) => () => navigation.navigate(route); // Se hace un doble llamado para que navigateTo almacene la definición de una función y no lo que retorna en sí, por lo que, recién cuando se presiona el botón, es cuando se llama a la función y se busca qué es lo que retorna. Haciendo la traza se entiende mejor...
 
   const getNewCountValue = async () => {
+    // Está bien que ambos sean await, pero hay que tener cuidado porque pueden llegar a tardar uno más que el otro, entonces:
     const textCount = await getResponsesToBotCount("text");
     const imageCount = await getResponsesToBotCount("image");
-    setTextData([textCount, imageCount, 0]);
+    setTextData([textCount, imageCount, 0]); // La solución sería usar distintos States, ahora no lo cambio porque ya lo pensé como una iteración abajo, pero si hubiera que procesar más cosas, habría que tener en cuenta el comentario...
   }
 
   useEffect(() => {

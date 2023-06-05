@@ -5,6 +5,7 @@ import {
     ScrollView,
     StyleSheet,
     View,
+    Alert
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
@@ -16,6 +17,10 @@ import StatusProfile from "../components/StatusProfile";
 import { UserImgBubble } from '../components/UserMsgBubble';
 import { IAImgBubble } from '../components/IAMsgBubble';
 import * as ImagePicker from 'expo-image-picker';
+
+// Para establecer dimensiones de manera responsive
+// const windowWidth = Dimensions.get('window').width;
+// const windowHeight = Dimensions.get('window').height;
 
 export default ImageScreen = () => {
     const navigation = useNavigation();
@@ -58,7 +63,9 @@ export default ImageScreen = () => {
         });
         result.canceled === false
             ? addUserMsg(result.uri) 
-            : alert('No se seleccionó ninguna imagen.');
+            : Alert.alert('Alerta', 'No ha seleccionado ninguna imagen', [ // Se usa el alert de react porque el alert de la web podría llegar a dar problemas de manera nativa
+                {text: 'cerrar', style:"cancel"},
+              ]);
     };
 
     return (
@@ -109,7 +116,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flexDirection: "row",
-        alignItems: "center",
+        // alignItems: "center",
         justifyContent: "space-between",
         backgroundColor: "black",
         width: 100,
@@ -120,6 +127,6 @@ const styles = StyleSheet.create({
         borderColor: "#696969",
         position: "absolute",
         bottom: "1.5%",
-        left: "39%",
+        // left: "39%",
     },
 });

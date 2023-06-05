@@ -24,7 +24,8 @@ export default CameraScreen = () => {
 
   if (!permission.granted) { // Camera permissions are not granted yet
     return (
-      <View style={styles.container}>
+      // Vimos que en IOs se rompe... a corregir.
+      <View style={{ justifyContent: "center" }}>
         <Text style={{ textAlign: "center" }}>
           Necesitamos acceso a la cámara
         </Text>
