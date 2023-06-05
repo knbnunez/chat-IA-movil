@@ -51,9 +51,6 @@ export default VoiceScreen = () => {
                 }
             </ScrollView>
             
-            
-            
-            
             <TouchableOpacity style={styles.inputContainer} onPress={handlePress}>
                 <FontAwesome name="microphone" size={24} color="white"/>
             </TouchableOpacity>
@@ -76,7 +73,7 @@ const styles = StyleSheet.create({
     },
     warningContainer: {
         backgroundColor: "#f997ff",
-        width: 300,
+        // width: 300,
         padding: 10,
         marginHorizontal: 24,
         marginVertical: 20,
